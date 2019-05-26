@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="8dc436261c5d48a4bcc53e43f3fa4cfe" Name="Diagram1" ZoomLevel="86">
+        <EntityTypeShape EntityType="ECMDemoModel.BlackTokenList" Width="1.5" PointX="0.75" PointY="0.75" />
+        <EntityTypeShape EntityType="ECMDemoModel.BusinessPartner" Width="1.5" PointX="2.75" PointY="0.75" />
+        <EntityTypeShape EntityType="ECMDemoModel.ContactPerson" Width="1.5" PointX="4.75" PointY="0.75" />
+        <EntityTypeShape EntityType="ECMDemoModel.Department" Width="1.5" PointX="4.75" PointY="4.75" />
+        <EntityTypeShape EntityType="ECMDemoModel.Directory" Width="1.5" PointX="0.75" PointY="5.75" />
+        <EntityTypeShape EntityType="ECMDemoModel.Document" Width="1.5" PointX="6.75" PointY="0.75" />
+        <EntityTypeShape EntityType="ECMDemoModel.DocumentCategory" Width="1.5" PointX="6.75" PointY="5.75" />
+        <EntityTypeShape EntityType="ECMDemoModel.DocumentCategoryGroup" Width="1.5" PointX="2.75" PointY="7.75" />
+        <EntityTypeShape EntityType="ECMDemoModel.DocumentConfirm" Width="1.5" PointX="8.75" PointY="0.75" />
+        <EntityTypeShape EntityType="ECMDemoModel.DocumentProcess" Width="1.5" PointX="8.75" PointY="5.75" />
+        <EntityTypeShape EntityType="ECMDemoModel.DocumentStatus" Width="1.5" PointX="6.75" PointY="8.75" />
+        <EntityTypeShape EntityType="ECMDemoModel.DocumentUnify" Width="1.5" PointX="8.75" PointY="8.75" />
+        <EntityTypeShape EntityType="ECMDemoModel.EnterpriseUnit" Width="1.5" PointX="10.75" PointY="0.75" />
+        <EntityTypeShape EntityType="ECMDemoModel.InternalDocument" Width="1.5" PointX="0.75" PointY="10.75" />
+        <EntityTypeShape EntityType="ECMDemoModel.QH_BusinessPartner_ContactPerson" Width="1.5" PointX="10.75" PointY="5.75" />
+        <EntityTypeShape EntityType="ECMDemoModel.QH_DocumentConfirm_User" Width="1.5" PointX="10.75" PointY="8.75" />
+        <EntityTypeShape EntityType="ECMDemoModel.QH_DocumentPerform_User" Width="1.5" PointX="10.75" PointY="11.75" />
+        <EntityTypeShape EntityType="ECMDemoModel.QH_DocumentUnify_User" Width="1.5" PointX="12.75" PointY="0.75" />
+        <EntityTypeShape EntityType="ECMDemoModel.QH_ReceivedDocument_File" Width="1.5" PointX="12.75" PointY="3.75" />
+        <EntityTypeShape EntityType="ECMDemoModel.QH_SendDocument_File" Width="1.5" PointX="12.75" PointY="6.75" />
+        <EntityTypeShape EntityType="ECMDemoModel.ReceivedDocument" Width="1.5" PointX="12.75" PointY="9.75" />
+        <EntityTypeShape EntityType="ECMDemoModel.SendDocument" Width="1.5" PointX="2.75" PointY="13.75" />
+        <EntityTypeShape EntityType="ECMDemoModel.TaskMessage" Width="1.5" PointX="4.75" PointY="13.75" />
+        <EntityTypeShape EntityType="ECMDemoModel.User" Width="1.5" PointX="6.75" PointY="13.75" />
+        <EntityTypeShape EntityType="ECMDemoModel.UserRole" Width="1.5" PointX="14.75" PointY="0.75" />
+        <EntityTypeShape EntityType="ECMDemoModel.DocumentPerform" Width="1.5" PointX="9.375" PointY="14.75" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

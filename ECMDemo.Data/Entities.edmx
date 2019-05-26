@@ -1,0 +1,1288 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="ECMDemoModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="BlackTokenList">
+          <Key>
+            <PropertyRef Name="TokenId" />
+          </Key>
+          <Property Name="TokenId" Type="int" Nullable="false" />
+          <Property Name="TokenKey" Type="varchar" MaxLength="500" Nullable="false" />
+          <Property Name="CreatedOnDate" Type="datetime" Nullable="false" />
+          <Property Name="IpAdress" Type="binary" MaxLength="4" Nullable="false" />
+        </EntityType>
+        <EntityType Name="BusinessPartner">
+          <Key>
+            <PropertyRef Name="PartnerId" />
+          </Key>
+          <Property Name="PartnerId" Type="int" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="BusinessTypeId" Type="int" Nullable="false" />
+          <Property Name="TaxCode" Type="varchar" MaxLength="50" />
+          <Property Name="AgencyCode" Type="varchar" MaxLength="50" />
+          <Property Name="BusinessCode" Type="varchar" MaxLength="50" />
+          <Property Name="BusinessRegisteredCode" Type="varchar" MaxLength="50" />
+          <Property Name="ResponsibleUserId" Type="int" Nullable="false" />
+          <Property Name="RegisteredAddress" Type="nvarchar" MaxLength="500" />
+          <Property Name="ActualAddress" Type="nvarchar" MaxLength="500" />
+          <Property Name="Fax" Type="varchar" MaxLength="50" />
+          <Property Name="Email" Type="varchar" MaxLength="50" />
+          <Property Name="PhoneNumber" Type="varchar" MaxLength="50" />
+          <Property Name="Website" Type="varchar" MaxLength="50" />
+          <Property Name="Note" Type="nvarchar" MaxLength="500" />
+        </EntityType>
+        <EntityType Name="ContactPerson">
+          <Key>
+            <PropertyRef Name="ContactPersonId" />
+          </Key>
+          <Property Name="ContactPersonId" Type="int" Nullable="false" />
+          <Property Name="PartnerId" Type="int" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Position" Type="nvarchar" MaxLength="100" />
+          <Property Name="OfficePhoneNumber" Type="varchar" MaxLength="50" />
+          <Property Name="PersonalPhoneNumber" Type="varchar" MaxLength="50" />
+          <Property Name="Email" Type="varchar" MaxLength="200" />
+          <Property Name="Note" Type="nvarchar" MaxLength="500" />
+        </EntityType>
+        <EntityType Name="Department">
+          <Key>
+            <PropertyRef Name="DepartmentId" />
+          </Key>
+          <Property Name="DepartmentId" Type="int" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Description" Type="nvarchar" MaxLength="500" />
+          <Property Name="LeaderId" Type="int" />
+          <Property Name="ParentId" Type="int" Nullable="false" />
+          <Property Name="IsDeleted" Type="bit" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Directory">
+          <Key>
+            <PropertyRef Name="DirectoryId" />
+          </Key>
+          <Property Name="DirectoryId" Type="int" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="100" Nullable="false" />
+          <Property Name="ParentId" Type="int" Nullable="false" />
+          <Property Name="DepartmentId" Type="int" Nullable="false" />
+          <Property Name="CreatedByUserId" Type="int" Nullable="false" />
+          <Property Name="CreatedOnDate" Type="datetime" Nullable="false" />
+          <Property Name="LastModifiedOnDate" Type="datetime" Nullable="false" />
+          <Property Name="LastModifiedByUserId" Type="int" Nullable="false" />
+          <Property Name="IsDelete" Type="bit" Nullable="false" />
+          <Property Name="ModuleId" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Document">
+          <Key>
+            <PropertyRef Name="DocumentId" />
+          </Key>
+          <Property Name="DocumentId" Type="int" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Description" Type="nvarchar" MaxLength="500" />
+          <Property Name="FileUrl" Type="nvarchar" MaxLength="500" Nullable="false" />
+          <Property Name="FileCates" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="DocumentType" Type="bit" Nullable="false" />
+          <Property Name="DirectoryId" Type="int" Nullable="false" />
+          <Property Name="CreatedByUserId" Type="int" Nullable="false" />
+          <Property Name="CreatedOnDate" Type="datetime" Nullable="false" />
+          <Property Name="LastModifiedByUserId" Type="int" Nullable="false" />
+          <Property Name="LastModifiedOnDate" Type="datetime" Nullable="false" />
+          <Property Name="IsDelete" Type="bit" Nullable="false" />
+        </EntityType>
+        <EntityType Name="DocumentCategory">
+          <Key>
+            <PropertyRef Name="CategoryId" />
+          </Key>
+          <Property Name="CategoryId" Type="int" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Description" Type="nvarchar" MaxLength="500" />
+          <Property Name="CategoryGroupId" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="DocumentCategoryGroup">
+          <Key>
+            <PropertyRef Name="DocumentCateGroupId" />
+          </Key>
+          <Property Name="DocumentCateGroupId" Type="int" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Active" Type="bit" Nullable="false" />
+        </EntityType>
+        <EntityType Name="DocumentConfirm">
+          <Key>
+            <PropertyRef Name="ConfirmId" />
+          </Key>
+          <Property Name="ConfirmId" Type="int" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Description" Type="nvarchar" MaxLength="500" />
+          <Property Name="UserId" Type="int" Nullable="false" />
+          <Property Name="FinishedOnDate" Type="date" Nullable="false" />
+          <Property Name="CreatedOnDate" Type="datetime" Nullable="false" />
+          <Property Name="CreatedByUserId" Type="int" Nullable="false" />
+          <Property Name="UpdatedOnDate" Type="datetime" Nullable="false" />
+          <Property Name="UpdatedByUserId" Type="int" Nullable="false" />
+          <Property Name="RelatedDocumentId" Type="int" Nullable="false" />
+          <Property Name="ModuleId" Type="int" Nullable="false" />
+          <Property Name="IsFinished" Type="int" Nullable="false" />
+          <Property Name="PriorityLevel" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="DocumentPerform">
+          <Key>
+            <PropertyRef Name="PerformId" />
+          </Key>
+          <Property Name="PerformId" Type="int" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Description" Type="nvarchar" MaxLength="500" />
+          <Property Name="UserList" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="FinishedOnDate" Type="date" Nullable="false" />
+          <Property Name="TaskType" Type="int" Nullable="false" />
+          <Property Name="PriorityLevel" Type="int" Nullable="false" />
+          <Property Name="CreatedOnDate" Type="datetime" Nullable="false" />
+          <Property Name="CreatedByUserId" Type="int" Nullable="false" />
+          <Property Name="UpdatedByUserId" Type="int" Nullable="false" />
+          <Property Name="UpdatedOnDate" Type="datetime" Nullable="false" />
+          <Property Name="Status" Type="int" Nullable="false" />
+          <Property Name="RelatedDocumentId" Type="int" Nullable="false" />
+          <Property Name="IsFinished" Type="int" Nullable="false" />
+          <Property Name="ModuleId" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="DocumentProcess">
+          <Key>
+            <PropertyRef Name="Id" />
+            <PropertyRef Name="OrderIndex" />
+          </Key>
+          <Property Name="Id" Type="int" Nullable="false" />
+          <Property Name="OrderIndex" Type="int" Nullable="false" />
+          <Property Name="RelatedId" Type="int" Nullable="false" />
+          <Property Name="TaskType" Type="int" Nullable="false" />
+          <Property Name="Status" Type="int" Nullable="false" />
+          <Property Name="CreatedOnDate" Type="datetime" Nullable="false" />
+        </EntityType>
+        <EntityType Name="DocumentStatus">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" Nullable="false" />
+          <Property Name="UnifyStatus" Type="int" Nullable="false" />
+          <Property Name="UnifyRelatedId" Type="int" />
+          <Property Name="ConfirmStatus" Type="int" Nullable="false" />
+          <Property Name="ConfirmRelatedId" Type="int" />
+          <Property Name="PerformStatus" Type="int" Nullable="false" />
+          <Property Name="PerformRelatedId" Type="int" />
+          <Property Name="RegisterStatus" Type="int" Nullable="false" />
+          <Property Name="RegisterRelatedId" Type="int" />
+          <Property Name="DisplayName" Type="nvarchar" MaxLength="100" Nullable="false" />
+        </EntityType>
+        <EntityType Name="DocumentUnify">
+          <Key>
+            <PropertyRef Name="UnifyId" />
+          </Key>
+          <Property Name="UnifyId" Type="int" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Description" Type="nvarchar" MaxLength="500" />
+          <Property Name="UserList" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="FinishedOnDate" Type="date" Nullable="false" />
+          <Property Name="TaskType" Type="int" Nullable="false" />
+          <Property Name="PriorityLevel" Type="int" Nullable="false" />
+          <Property Name="CreatedOnDate" Type="datetime" Nullable="false" />
+          <Property Name="CreatedByUserId" Type="int" Nullable="false" />
+          <Property Name="UpdatedByUserId" Type="int" Nullable="false" />
+          <Property Name="UpdatedOnDate" Type="datetime" Nullable="false" />
+          <Property Name="Status" Type="int" Nullable="false" />
+          <Property Name="RelatedDocumentId" Type="int" Nullable="false" />
+          <Property Name="IsFinished" Type="int" Nullable="false" />
+          <Property Name="ModuleId" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="EnterpriseUnit">
+          <Key>
+            <PropertyRef Name="EnterpriseUnitId" />
+          </Key>
+          <Property Name="EnterpriseUnitId" Type="int" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="BusinessTypeId" Type="int" Nullable="false" />
+          <Property Name="TaxCode" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="AgencyCode" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="BusinessCode" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="BusinessRegisteredCode" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="RegisteredAddress" Type="nvarchar" MaxLength="200" Nullable="false" />
+          <Property Name="ActualAddress" Type="nvarchar" MaxLength="200" />
+          <Property Name="Fax" Type="varchar" MaxLength="50" />
+          <Property Name="Email" Type="varchar" MaxLength="100" />
+          <Property Name="PhoneNumber" Type="varchar" MaxLength="50" />
+          <Property Name="Note" Type="nvarchar" MaxLength="500" />
+        </EntityType>
+        <EntityType Name="InternalDocument">
+          <Key>
+            <PropertyRef Name="InternalDocumentId" />
+          </Key>
+          <Property Name="InternalDocumentId" Type="int" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="200" Nullable="false" />
+          <Property Name="Summary" Type="nvarchar" MaxLength="500" Nullable="false" />
+          <Property Name="DirectoryId" Type="int" Nullable="false" />
+          <Property Name="CategoryId" Type="int" Nullable="false" />
+          <Property Name="SecretLevel" Type="int" Nullable="false" />
+          <Property Name="ProjectId" Type="int" Nullable="false" />
+          <Property Name="DepartmentId" Type="int" Nullable="false" />
+          <Property Name="DocumentStatusId" Type="int" Nullable="false" />
+          <Property Name="DocumentProcessId" Type="int" />
+          <Property Name="WrittenByUserId" Type="int" Nullable="false" />
+          <Property Name="ResponsibleUserId" Type="int" Nullable="false" />
+          <Property Name="ResignedNumber" Type="int" />
+          <Property Name="ResignedOnDate" Type="datetime" />
+          <Property Name="CreatedByUserId" Type="int" Nullable="false" />
+          <Property Name="CreatedOnDate" Type="datetime" Nullable="false" />
+          <Property Name="LastModifiedByUserId" Type="int" Nullable="false" />
+          <Property Name="LastModifiedOnDate" Type="datetime" Nullable="false" />
+          <Property Name="IsDelete" Type="bit" Nullable="false" />
+          <Property Name="AttachedFileUrl" Type="varchar" MaxLength="500" />
+        </EntityType>
+        <EntityType Name="QH_BusinessPartner_ContactPerson">
+          <Key>
+            <PropertyRef Name="ContactPersonId" />
+            <PropertyRef Name="BusinessPartnerId" />
+          </Key>
+          <Property Name="ContactPersonId" Type="int" Nullable="false" />
+          <Property Name="BusinessPartnerId" Type="int" Nullable="false" />
+          <Property Name="CreatedOnDate" Type="datetime" Nullable="false" />
+          <Property Name="IndexOrder" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="QH_DocumentConfirm_User">
+          <Key>
+            <PropertyRef Name="UserId" />
+            <PropertyRef Name="DocumentConfirmId" />
+          </Key>
+          <Property Name="UserId" Type="int" Nullable="false" />
+          <Property Name="DocumentConfirmId" Type="int" Nullable="false" />
+          <Property Name="Note" Type="nvarchar" MaxLength="500" />
+          <Property Name="CreatedOnDate" Type="datetime" Nullable="false" />
+          <Property Name="ResponseStatus" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="QH_DocumentPerform_User">
+          <Key>
+            <PropertyRef Name="UserId" />
+            <PropertyRef Name="DocumentPerformId" />
+          </Key>
+          <Property Name="UserId" Type="int" Nullable="false" />
+          <Property Name="DocumentPerformId" Type="int" Nullable="false" />
+          <Property Name="ResponseStatus" Type="int" Nullable="false" />
+          <Property Name="Note" Type="nvarchar" MaxLength="500" Nullable="false" />
+          <Property Name="CreatedOnDate" Type="datetime" Nullable="false" />
+        </EntityType>
+        <EntityType Name="QH_DocumentUnify_User">
+          <Key>
+            <PropertyRef Name="UserId" />
+            <PropertyRef Name="DocumentUnifyId" />
+          </Key>
+          <Property Name="UserId" Type="int" Nullable="false" />
+          <Property Name="DocumentUnifyId" Type="int" Nullable="false" />
+          <Property Name="ResponseStatus" Type="int" Nullable="false" />
+          <Property Name="Note" Type="nvarchar" MaxLength="500" Nullable="false" />
+          <Property Name="CreatedOnDate" Type="datetime" Nullable="false" />
+        </EntityType>
+        <EntityType Name="QH_ReceivedDocument_File">
+          <Key>
+            <PropertyRef Name="ReceivedDocumentId" />
+          </Key>
+          <Property Name="ReceivedDocumentId" Type="int" Nullable="false" />
+          <Property Name="FileId" Type="int" Nullable="false" />
+          <Property Name="IsOriginal" Type="bit" Nullable="false" />
+          <Property Name="CreatedOnDate" Type="datetime" Nullable="false" />
+        </EntityType>
+        <EntityType Name="QH_SendDocument_File">
+          <Key>
+            <PropertyRef Name="SendDocumentId" />
+          </Key>
+          <Property Name="SendDocumentId" Type="int" Nullable="false" />
+          <Property Name="FileId" Type="int" Nullable="false" />
+          <Property Name="IsOriginal" Type="bit" Nullable="false" />
+          <Property Name="CreatedOnDate" Type="datetime" Nullable="false" />
+        </EntityType>
+        <EntityType Name="ReceivedDocument">
+          <Key>
+            <PropertyRef Name="ReceivedDocumentId" />
+          </Key>
+          <Property Name="ReceivedDocumentId" Type="int" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="200" Nullable="false" />
+          <Property Name="Summary" Type="nvarchar" MaxLength="500" Nullable="false" />
+          <Property Name="CategoryId" Type="int" Nullable="false" />
+          <Property Name="SenderId" Type="int" Nullable="false" />
+          <Property Name="SignedByUserId" Type="int" Nullable="false" />
+          <Property Name="DocumentDate" Type="datetime" Nullable="false" />
+          <Property Name="DocumentIndex" Type="int" Nullable="false" />
+          <Property Name="ReceiverId" Type="int" Nullable="false" />
+          <Property Name="ReceiverUserId" Type="int" Nullable="false" />
+          <Property Name="DepartmentId" Type="int" Nullable="false" />
+          <Property Name="DeliveryMethodId" Type="int" Nullable="false" />
+          <Property Name="SecretLevel" Type="int" Nullable="false" />
+          <Property Name="DocumentStatusId" Type="int" Nullable="false" />
+          <Property Name="DocumentProcessId" Type="int" />
+          <Property Name="ResponsibleUserId" Type="int" Nullable="false" />
+          <Property Name="ResignedNumber" Type="int" />
+          <Property Name="ResignedOnDate" Type="datetime" />
+          <Property Name="CreatedByUserId" Type="int" Nullable="false" />
+          <Property Name="CreatedOnDate" Type="datetime" Nullable="false" />
+          <Property Name="LastModifiedByUserId" Type="int" Nullable="false" />
+          <Property Name="LastModifiedOnDate" Type="datetime" Nullable="false" />
+          <Property Name="IsDelete" Type="bit" Nullable="false" />
+          <Property Name="AttachedFileUrl" Type="varchar" MaxLength="500" />
+        </EntityType>
+        <EntityType Name="SendDocument">
+          <Key>
+            <PropertyRef Name="SendDocumentId" />
+          </Key>
+          <Property Name="SendDocumentId" Type="int" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="200" Nullable="false" />
+          <Property Name="Summary" Type="nvarchar" MaxLength="500" />
+          <Property Name="CategoryId" Type="int" Nullable="false" />
+          <Property Name="SenderId" Type="int" Nullable="false" />
+          <Property Name="ResponseForRDocId" Type="int" Nullable="false" />
+          <Property Name="WrittenByUserId" Type="int" Nullable="false" />
+          <Property Name="DepartmentId" Type="int" Nullable="false" />
+          <Property Name="SignedByUserId" Type="int" Nullable="false" />
+          <Property Name="ReceiverId" Type="int" Nullable="false" />
+          <Property Name="ReceiverContactPersonId" Type="int" Nullable="false" />
+          <Property Name="DeliveryMethodId" Type="int" Nullable="false" />
+          <Property Name="ResponseDeadline" Type="datetime" Nullable="false" />
+          <Property Name="SecretLevel" Type="int" Nullable="false" />
+          <Property Name="DocumentStatusId" Type="int" Nullable="false" />
+          <Property Name="DocumentProcessId" Type="int" />
+          <Property Name="ResponsibleUserId" Type="int" Nullable="false" />
+          <Property Name="ResignedNumber" Type="int" />
+          <Property Name="ResignedOnDate" Type="datetime" />
+          <Property Name="AttachedFileUrl" Type="varchar" MaxLength="500" />
+          <Property Name="CreatedByUserId" Type="int" Nullable="false" />
+          <Property Name="CreatedOnDate" Type="datetime" Nullable="false" />
+          <Property Name="LastModifiedByUserId" Type="int" Nullable="false" />
+          <Property Name="LastModifiedOnDate" Type="datetime" Nullable="false" />
+          <Property Name="IsDelete" Type="bit" Nullable="false" />
+        </EntityType>
+        <EntityType Name="TaskMessage">
+          <Key>
+            <PropertyRef Name="MessageId" />
+          </Key>
+          <Property Name="MessageId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Title" Type="nvarchar" MaxLength="100" Nullable="false" />
+          <Property Name="CreatedByUserId" Type="int" Nullable="false" />
+          <Property Name="CreatedOnDate" Type="datetime" Nullable="false" />
+          <Property Name="ModuleId" Type="int" Nullable="false" />
+          <Property Name="Deadline" Type="datetime" Nullable="false" />
+          <Property Name="Status" Type="int" Nullable="false" />
+          <Property Name="TaskType" Type="int" Nullable="false" />
+          <Property Name="UserId" Type="int" Nullable="false" />
+          <Property Name="RelatedId" Type="int" Nullable="false" />
+          <Property Name="IsMyTask" Type="bit" Nullable="false" />
+        </EntityType>
+        <EntityType Name="User">
+          <Key>
+            <PropertyRef Name="UserId" />
+          </Key>
+          <Property Name="UserId" Type="int" Nullable="false" />
+          <Property Name="UserName" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="Password" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="UserRoleId" Type="int" Nullable="false" />
+          <Property Name="DepartmentId" Type="int" Nullable="false" />
+          <Property Name="FullName" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="IsDelete" Type="bit" Nullable="false" />
+          <Property Name="CreateOnDate" Type="datetime" Nullable="false" />
+          <Property Name="SessionLoginCode" Type="uniqueidentifier" />
+          <Property Name="LastLoginOnDate" Type="datetime" />
+          <Property Name="IsDisable" Type="bit" Nullable="false" />
+        </EntityType>
+        <EntityType Name="UserRole">
+          <Key>
+            <PropertyRef Name="UserRoleId" />
+          </Key>
+          <Property Name="UserRoleId" Type="int" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Description" Type="nvarchar" MaxLength="100" />
+        </EntityType>
+        <EntityContainer Name="ECMDemoModelStoreContainer">
+          <EntitySet Name="BlackTokenList" EntityType="Self.BlackTokenList" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="BusinessPartner" EntityType="Self.BusinessPartner" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ContactPerson" EntityType="Self.ContactPerson" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Department" EntityType="Self.Department" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Directory" EntityType="Self.Directory" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Document" EntityType="Self.Document" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="DocumentCategory" EntityType="Self.DocumentCategory" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="DocumentCategoryGroup" EntityType="Self.DocumentCategoryGroup" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="DocumentConfirm" EntityType="Self.DocumentConfirm" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="DocumentPerform" EntityType="Self.DocumentPerform" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="DocumentProcess" EntityType="Self.DocumentProcess" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="DocumentStatus" EntityType="Self.DocumentStatus" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="DocumentUnify" EntityType="Self.DocumentUnify" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="EnterpriseUnit" EntityType="Self.EnterpriseUnit" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="InternalDocument" EntityType="Self.InternalDocument" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="QH_BusinessPartner_ContactPerson" EntityType="Self.QH_BusinessPartner_ContactPerson" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="QH_DocumentConfirm_User" EntityType="Self.QH_DocumentConfirm_User" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="QH_DocumentPerform_User" EntityType="Self.QH_DocumentPerform_User" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="QH_DocumentUnify_User" EntityType="Self.QH_DocumentUnify_User" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="QH_ReceivedDocument_File" EntityType="Self.QH_ReceivedDocument_File" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="QH_SendDocument_File" EntityType="Self.QH_SendDocument_File" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ReceivedDocument" EntityType="Self.ReceivedDocument" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="SendDocument" EntityType="Self.SendDocument" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="TaskMessage" EntityType="Self.TaskMessage" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="User" EntityType="Self.User" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="UserRole" EntityType="Self.UserRole" Schema="dbo" store:Type="Tables" />
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="ECMDemoModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityContainer Name="Entities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="BlackTokenLists" EntityType="ECMDemoModel.BlackTokenList" />
+          <EntitySet Name="BusinessPartners" EntityType="ECMDemoModel.BusinessPartner" />
+          <EntitySet Name="ContactPersons" EntityType="ECMDemoModel.ContactPerson" />
+          <EntitySet Name="Departments" EntityType="ECMDemoModel.Department" />
+          <EntitySet Name="Directories" EntityType="ECMDemoModel.Directory" />
+          <EntitySet Name="Documents" EntityType="ECMDemoModel.Document" />
+          <EntitySet Name="DocumentCategories" EntityType="ECMDemoModel.DocumentCategory" />
+          <EntitySet Name="DocumentCategoryGroups" EntityType="ECMDemoModel.DocumentCategoryGroup" />
+          <EntitySet Name="DocumentConfirms" EntityType="ECMDemoModel.DocumentConfirm" />
+          <EntitySet Name="DocumentProcesses" EntityType="ECMDemoModel.DocumentProcess" />
+          <EntitySet Name="DocumentStatus" EntityType="ECMDemoModel.DocumentStatus" />
+          <EntitySet Name="DocumentUnifies" EntityType="ECMDemoModel.DocumentUnify" />
+          <EntitySet Name="EnterpriseUnits" EntityType="ECMDemoModel.EnterpriseUnit" />
+          <EntitySet Name="InternalDocuments" EntityType="ECMDemoModel.InternalDocument" />
+          <EntitySet Name="QH_BusinessPartner_ContactPerson" EntityType="ECMDemoModel.QH_BusinessPartner_ContactPerson" />
+          <EntitySet Name="QH_DocumentConfirm_User" EntityType="ECMDemoModel.QH_DocumentConfirm_User" />
+          <EntitySet Name="QH_DocumentPerform_User" EntityType="ECMDemoModel.QH_DocumentPerform_User" />
+          <EntitySet Name="QH_DocumentUnify_User" EntityType="ECMDemoModel.QH_DocumentUnify_User" />
+          <EntitySet Name="QH_ReceivedDocument_File" EntityType="ECMDemoModel.QH_ReceivedDocument_File" />
+          <EntitySet Name="QH_SendDocument_File" EntityType="ECMDemoModel.QH_SendDocument_File" />
+          <EntitySet Name="ReceivedDocuments" EntityType="ECMDemoModel.ReceivedDocument" />
+          <EntitySet Name="SendDocuments" EntityType="ECMDemoModel.SendDocument" />
+          <EntitySet Name="TaskMessages" EntityType="ECMDemoModel.TaskMessage" />
+          <EntitySet Name="Users" EntityType="ECMDemoModel.User" />
+          <EntitySet Name="UserRoles" EntityType="ECMDemoModel.UserRole" />
+          <EntitySet Name="DocumentPerforms" EntityType="ECMDemoModel.DocumentPerform" />
+        </EntityContainer>
+        <EntityType Name="BlackTokenList">
+          <Key>
+            <PropertyRef Name="TokenId" />
+          </Key>
+          <Property Name="TokenId" Type="Int32" Nullable="false" />
+          <Property Name="TokenKey" Type="String" Nullable="false" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="CreatedOnDate" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="IpAdress" Type="Binary" Nullable="false" MaxLength="4" FixedLength="true" />
+        </EntityType>
+        <EntityType Name="BusinessPartner">
+          <Key>
+            <PropertyRef Name="PartnerId" />
+          </Key>
+          <Property Name="PartnerId" Type="Int32" Nullable="false" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="BusinessTypeId" Type="Int32" Nullable="false" />
+          <Property Name="TaxCode" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="AgencyCode" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="BusinessCode" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="BusinessRegisteredCode" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="ResponsibleUserId" Type="Int32" Nullable="false" />
+          <Property Name="RegisteredAddress" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="ActualAddress" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="Fax" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Email" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="PhoneNumber" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Website" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Note" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="ContactPerson">
+          <Key>
+            <PropertyRef Name="ContactPersonId" />
+          </Key>
+          <Property Name="ContactPersonId" Type="Int32" Nullable="false" />
+          <Property Name="PartnerId" Type="Int32" Nullable="false" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Position" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="OfficePhoneNumber" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="PersonalPhoneNumber" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Email" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="Note" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="Department">
+          <Key>
+            <PropertyRef Name="DepartmentId" />
+          </Key>
+          <Property Name="DepartmentId" Type="Int32" Nullable="false" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Description" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="LeaderId" Type="Int32" />
+          <Property Name="ParentId" Type="Int32" Nullable="false" />
+          <Property Name="IsDeleted" Type="Boolean" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Directory">
+          <Key>
+            <PropertyRef Name="DirectoryId" />
+          </Key>
+          <Property Name="DirectoryId" Type="Int32" Nullable="false" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="ParentId" Type="Int32" Nullable="false" />
+          <Property Name="DepartmentId" Type="Int32" Nullable="false" />
+          <Property Name="CreatedByUserId" Type="Int32" Nullable="false" />
+          <Property Name="CreatedOnDate" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="LastModifiedOnDate" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="LastModifiedByUserId" Type="Int32" Nullable="false" />
+          <Property Name="IsDelete" Type="Boolean" Nullable="false" />
+          <Property Name="ModuleId" Type="Int32" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Document">
+          <Key>
+            <PropertyRef Name="DocumentId" />
+          </Key>
+          <Property Name="DocumentId" Type="Int32" Nullable="false" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Description" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="FileUrl" Type="String" Nullable="false" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="FileCates" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="DocumentType" Type="Boolean" Nullable="false" />
+          <Property Name="DirectoryId" Type="Int32" Nullable="false" />
+          <Property Name="CreatedByUserId" Type="Int32" Nullable="false" />
+          <Property Name="CreatedOnDate" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="LastModifiedByUserId" Type="Int32" Nullable="false" />
+          <Property Name="LastModifiedOnDate" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="IsDelete" Type="Boolean" Nullable="false" />
+        </EntityType>
+        <EntityType Name="DocumentCategory">
+          <Key>
+            <PropertyRef Name="CategoryId" />
+          </Key>
+          <Property Name="CategoryId" Type="Int32" Nullable="false" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Description" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="CategoryGroupId" Type="Int32" Nullable="false" />
+        </EntityType>
+        <EntityType Name="DocumentCategoryGroup">
+          <Key>
+            <PropertyRef Name="DocumentCateGroupId" />
+          </Key>
+          <Property Name="DocumentCateGroupId" Type="Int32" Nullable="false" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Active" Type="Boolean" Nullable="false" />
+        </EntityType>
+        <EntityType Name="DocumentConfirm">
+          <Key>
+            <PropertyRef Name="ConfirmId" />
+          </Key>
+          <Property Name="ConfirmId" Type="Int32" Nullable="false" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Description" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="UserId" Type="Int32" Nullable="false" />
+          <Property Name="FinishedOnDate" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="CreatedOnDate" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="CreatedByUserId" Type="Int32" Nullable="false" />
+          <Property Name="UpdatedOnDate" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="UpdatedByUserId" Type="Int32" Nullable="false" />
+          <Property Name="RelatedDocumentId" Type="Int32" Nullable="false" />
+          <Property Name="ModuleId" Type="Int32" Nullable="false" />
+          <Property Name="IsFinished" Type="Int32" Nullable="false" />
+          <Property Name="PriorityLevel" Type="Int32" Nullable="false" />
+        </EntityType>
+        <EntityType Name="DocumentProcess">
+          <Key>
+            <PropertyRef Name="Id" />
+            <PropertyRef Name="OrderIndex" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" />
+          <Property Name="OrderIndex" Type="Int32" Nullable="false" />
+          <Property Name="RelatedId" Type="Int32" Nullable="false" />
+          <Property Name="TaskType" Type="Int32" Nullable="false" />
+          <Property Name="Status" Type="Int32" Nullable="false" />
+          <Property Name="CreatedOnDate" Type="DateTime" Nullable="false" Precision="3" />
+        </EntityType>
+        <EntityType Name="DocumentStatus">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" />
+          <Property Name="UnifyStatus" Type="Int32" Nullable="false" />
+          <Property Name="UnifyRelatedId" Type="Int32" />
+          <Property Name="ConfirmStatus" Type="Int32" Nullable="false" />
+          <Property Name="ConfirmRelatedId" Type="Int32" />
+          <Property Name="PerformStatus" Type="Int32" Nullable="false" />
+          <Property Name="PerformRelatedId" Type="Int32" />
+          <Property Name="RegisterStatus" Type="Int32" Nullable="false" />
+          <Property Name="RegisterRelatedId" Type="Int32" />
+          <Property Name="DisplayName" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="DocumentUnify">
+          <Key>
+            <PropertyRef Name="UnifyId" />
+          </Key>
+          <Property Name="UnifyId" Type="Int32" Nullable="false" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Description" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="UserList" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="FinishedOnDate" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="TaskType" Type="Int32" Nullable="false" />
+          <Property Name="PriorityLevel" Type="Int32" Nullable="false" />
+          <Property Name="CreatedOnDate" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="CreatedByUserId" Type="Int32" Nullable="false" />
+          <Property Name="UpdatedByUserId" Type="Int32" Nullable="false" />
+          <Property Name="UpdatedOnDate" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="Status" Type="Int32" Nullable="false" />
+          <Property Name="RelatedDocumentId" Type="Int32" Nullable="false" />
+          <Property Name="IsFinished" Type="Int32" Nullable="false" />
+          <Property Name="ModuleId" Type="Int32" Nullable="false" />
+        </EntityType>
+        <EntityType Name="EnterpriseUnit">
+          <Key>
+            <PropertyRef Name="EnterpriseUnitId" />
+          </Key>
+          <Property Name="EnterpriseUnitId" Type="Int32" Nullable="false" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="BusinessTypeId" Type="Int32" Nullable="false" />
+          <Property Name="TaxCode" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="AgencyCode" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="BusinessCode" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="BusinessRegisteredCode" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="RegisteredAddress" Type="String" Nullable="false" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="ActualAddress" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="Fax" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Email" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="PhoneNumber" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Note" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="InternalDocument">
+          <Key>
+            <PropertyRef Name="InternalDocumentId" />
+          </Key>
+          <Property Name="InternalDocumentId" Type="Int32" Nullable="false" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="Summary" Type="String" Nullable="false" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="DirectoryId" Type="Int32" Nullable="false" />
+          <Property Name="CategoryId" Type="Int32" Nullable="false" />
+          <Property Name="SecretLevel" Type="Int32" Nullable="false" />
+          <Property Name="ProjectId" Type="Int32" Nullable="false" />
+          <Property Name="DepartmentId" Type="Int32" Nullable="false" />
+          <Property Name="DocumentStatusId" Type="Int32" Nullable="false" />
+          <Property Name="DocumentProcessId" Type="Int32" />
+          <Property Name="WrittenByUserId" Type="Int32" Nullable="false" />
+          <Property Name="ResponsibleUserId" Type="Int32" Nullable="false" />
+          <Property Name="ResignedNumber" Type="Int32" />
+          <Property Name="ResignedOnDate" Type="DateTime" Precision="3" />
+          <Property Name="CreatedByUserId" Type="Int32" Nullable="false" />
+          <Property Name="CreatedOnDate" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="LastModifiedByUserId" Type="Int32" Nullable="false" />
+          <Property Name="LastModifiedOnDate" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="IsDelete" Type="Boolean" Nullable="false" />
+          <Property Name="AttachedFileUrl" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="QH_BusinessPartner_ContactPerson">
+          <Key>
+            <PropertyRef Name="ContactPersonId" />
+            <PropertyRef Name="BusinessPartnerId" />
+          </Key>
+          <Property Name="ContactPersonId" Type="Int32" Nullable="false" />
+          <Property Name="BusinessPartnerId" Type="Int32" Nullable="false" />
+          <Property Name="CreatedOnDate" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="IndexOrder" Type="Int32" Nullable="false" />
+        </EntityType>
+        <EntityType Name="QH_DocumentConfirm_User">
+          <Key>
+            <PropertyRef Name="UserId" />
+            <PropertyRef Name="DocumentConfirmId" />
+          </Key>
+          <Property Name="UserId" Type="Int32" Nullable="false" />
+          <Property Name="DocumentConfirmId" Type="Int32" Nullable="false" />
+          <Property Name="Note" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="CreatedOnDate" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="ResponseStatus" Type="Int32" Nullable="false" />
+        </EntityType>
+        <EntityType Name="QH_DocumentPerform_User">
+          <Key>
+            <PropertyRef Name="UserId" />
+            <PropertyRef Name="DocumentPerformId" />
+          </Key>
+          <Property Name="UserId" Type="Int32" Nullable="false" />
+          <Property Name="DocumentPerformId" Type="Int32" Nullable="false" />
+          <Property Name="ResponseStatus" Type="Int32" Nullable="false" />
+          <Property Name="Note" Type="String" Nullable="false" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="CreatedOnDate" Type="DateTime" Nullable="false" Precision="3" />
+        </EntityType>
+        <EntityType Name="QH_DocumentUnify_User">
+          <Key>
+            <PropertyRef Name="UserId" />
+            <PropertyRef Name="DocumentUnifyId" />
+          </Key>
+          <Property Name="UserId" Type="Int32" Nullable="false" />
+          <Property Name="DocumentUnifyId" Type="Int32" Nullable="false" />
+          <Property Name="ResponseStatus" Type="Int32" Nullable="false" />
+          <Property Name="Note" Type="String" Nullable="false" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="CreatedOnDate" Type="DateTime" Nullable="false" Precision="3" />
+        </EntityType>
+        <EntityType Name="QH_ReceivedDocument_File">
+          <Key>
+            <PropertyRef Name="ReceivedDocumentId" />
+          </Key>
+          <Property Name="ReceivedDocumentId" Type="Int32" Nullable="false" />
+          <Property Name="FileId" Type="Int32" Nullable="false" />
+          <Property Name="IsOriginal" Type="Boolean" Nullable="false" />
+          <Property Name="CreatedOnDate" Type="DateTime" Nullable="false" Precision="3" />
+        </EntityType>
+        <EntityType Name="QH_SendDocument_File">
+          <Key>
+            <PropertyRef Name="SendDocumentId" />
+          </Key>
+          <Property Name="SendDocumentId" Type="Int32" Nullable="false" />
+          <Property Name="FileId" Type="Int32" Nullable="false" />
+          <Property Name="IsOriginal" Type="Boolean" Nullable="false" />
+          <Property Name="CreatedOnDate" Type="DateTime" Nullable="false" Precision="3" />
+        </EntityType>
+        <EntityType Name="ReceivedDocument">
+          <Key>
+            <PropertyRef Name="ReceivedDocumentId" />
+          </Key>
+          <Property Name="ReceivedDocumentId" Type="Int32" Nullable="false" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="Summary" Type="String" Nullable="false" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="CategoryId" Type="Int32" Nullable="false" />
+          <Property Name="SenderId" Type="Int32" Nullable="false" />
+          <Property Name="SignedByUserId" Type="Int32" Nullable="false" />
+          <Property Name="DocumentDate" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="DocumentIndex" Type="Int32" Nullable="false" />
+          <Property Name="ReceiverId" Type="Int32" Nullable="false" />
+          <Property Name="ReceiverUserId" Type="Int32" Nullable="false" />
+          <Property Name="DepartmentId" Type="Int32" Nullable="false" />
+          <Property Name="DeliveryMethodId" Type="Int32" Nullable="false" />
+          <Property Name="SecretLevel" Type="Int32" Nullable="false" />
+          <Property Name="DocumentStatusId" Type="Int32" Nullable="false" />
+          <Property Name="DocumentProcessId" Type="Int32" />
+          <Property Name="ResponsibleUserId" Type="Int32" Nullable="false" />
+          <Property Name="ResignedNumber" Type="Int32" />
+          <Property Name="ResignedOnDate" Type="DateTime" Precision="3" />
+          <Property Name="CreatedByUserId" Type="Int32" Nullable="false" />
+          <Property Name="CreatedOnDate" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="LastModifiedByUserId" Type="Int32" Nullable="false" />
+          <Property Name="LastModifiedOnDate" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="IsDelete" Type="Boolean" Nullable="false" />
+          <Property Name="AttachedFileUrl" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="SendDocument">
+          <Key>
+            <PropertyRef Name="SendDocumentId" />
+          </Key>
+          <Property Name="SendDocumentId" Type="Int32" Nullable="false" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="Summary" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="CategoryId" Type="Int32" Nullable="false" />
+          <Property Name="SenderId" Type="Int32" Nullable="false" />
+          <Property Name="ResponseForRDocId" Type="Int32" Nullable="false" />
+          <Property Name="WrittenByUserId" Type="Int32" Nullable="false" />
+          <Property Name="DepartmentId" Type="Int32" Nullable="false" />
+          <Property Name="SignedByUserId" Type="Int32" Nullable="false" />
+          <Property Name="ReceiverId" Type="Int32" Nullable="false" />
+          <Property Name="ReceiverContactPersonId" Type="Int32" Nullable="false" />
+          <Property Name="DeliveryMethodId" Type="Int32" Nullable="false" />
+          <Property Name="ResponseDeadline" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="SecretLevel" Type="Int32" Nullable="false" />
+          <Property Name="DocumentStatusId" Type="Int32" Nullable="false" />
+          <Property Name="DocumentProcessId" Type="Int32" />
+          <Property Name="ResponsibleUserId" Type="Int32" Nullable="false" />
+          <Property Name="ResignedNumber" Type="Int32" />
+          <Property Name="ResignedOnDate" Type="DateTime" Precision="3" />
+          <Property Name="AttachedFileUrl" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="CreatedByUserId" Type="Int32" Nullable="false" />
+          <Property Name="CreatedOnDate" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="LastModifiedByUserId" Type="Int32" Nullable="false" />
+          <Property Name="LastModifiedOnDate" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="IsDelete" Type="Boolean" Nullable="false" />
+        </EntityType>
+        <EntityType Name="TaskMessage">
+          <Key>
+            <PropertyRef Name="MessageId" />
+          </Key>
+          <Property Name="MessageId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Title" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="CreatedByUserId" Type="Int32" Nullable="false" />
+          <Property Name="CreatedOnDate" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="ModuleId" Type="Int32" Nullable="false" />
+          <Property Name="Deadline" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="Status" Type="Int32" Nullable="false" />
+          <Property Name="TaskType" Type="Int32" Nullable="false" />
+          <Property Name="UserId" Type="Int32" Nullable="false" />
+          <Property Name="RelatedId" Type="Int32" Nullable="false" />
+          <Property Name="IsMyTask" Type="Boolean" Nullable="false" />
+        </EntityType>
+        <EntityType Name="User">
+          <Key>
+            <PropertyRef Name="UserId" />
+          </Key>
+          <Property Name="UserId" Type="Int32" Nullable="false" />
+          <Property Name="UserName" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Password" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="UserRoleId" Type="Int32" Nullable="false" />
+          <Property Name="DepartmentId" Type="Int32" Nullable="false" />
+          <Property Name="FullName" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="IsDelete" Type="Boolean" Nullable="false" />
+          <Property Name="CreateOnDate" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="SessionLoginCode" Type="Guid" />
+          <Property Name="LastLoginOnDate" Type="DateTime" Precision="3" />
+          <Property Name="IsDisable" Type="Boolean" Nullable="false" />
+        </EntityType>
+        <EntityType Name="UserRole">
+          <Key>
+            <PropertyRef Name="UserRoleId" />
+          </Key>
+          <Property Name="UserRoleId" Type="Int32" Nullable="false" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Description" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="DocumentPerform">
+          <Key>
+            <PropertyRef Name="PerformId" />
+          </Key>
+          <Property Name="PerformId" Type="Int32" Nullable="false" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Description" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="UserList" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="FinishedOnDate" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="TaskType" Type="Int32" Nullable="false" />
+          <Property Name="PriorityLevel" Type="Int32" Nullable="false" />
+          <Property Name="CreatedOnDate" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="CreatedByUserId" Type="Int32" Nullable="false" />
+          <Property Name="UpdatedByUserId" Type="Int32" Nullable="false" />
+          <Property Name="UpdatedOnDate" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="Status" Type="Int32" Nullable="false" />
+          <Property Name="RelatedDocumentId" Type="Int32" Nullable="false" />
+          <Property Name="IsFinished" Type="Int32" Nullable="false" />
+          <Property Name="ModuleId" Type="Int32" Nullable="false" />
+        </EntityType>
+        </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="ECMDemoModelStoreContainer" CdmEntityContainer="Entities">
+          <EntitySetMapping Name="BlackTokenLists">
+            <EntityTypeMapping TypeName="ECMDemoModel.BlackTokenList">
+              <MappingFragment StoreEntitySet="BlackTokenList">
+                <ScalarProperty Name="IpAdress" ColumnName="IpAdress" />
+                <ScalarProperty Name="CreatedOnDate" ColumnName="CreatedOnDate" />
+                <ScalarProperty Name="TokenKey" ColumnName="TokenKey" />
+                <ScalarProperty Name="TokenId" ColumnName="TokenId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="BusinessPartners">
+            <EntityTypeMapping TypeName="ECMDemoModel.BusinessPartner">
+              <MappingFragment StoreEntitySet="BusinessPartner">
+                <ScalarProperty Name="Note" ColumnName="Note" />
+                <ScalarProperty Name="Website" ColumnName="Website" />
+                <ScalarProperty Name="PhoneNumber" ColumnName="PhoneNumber" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
+                <ScalarProperty Name="Fax" ColumnName="Fax" />
+                <ScalarProperty Name="ActualAddress" ColumnName="ActualAddress" />
+                <ScalarProperty Name="RegisteredAddress" ColumnName="RegisteredAddress" />
+                <ScalarProperty Name="ResponsibleUserId" ColumnName="ResponsibleUserId" />
+                <ScalarProperty Name="BusinessRegisteredCode" ColumnName="BusinessRegisteredCode" />
+                <ScalarProperty Name="BusinessCode" ColumnName="BusinessCode" />
+                <ScalarProperty Name="AgencyCode" ColumnName="AgencyCode" />
+                <ScalarProperty Name="TaxCode" ColumnName="TaxCode" />
+                <ScalarProperty Name="BusinessTypeId" ColumnName="BusinessTypeId" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="PartnerId" ColumnName="PartnerId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ContactPersons">
+            <EntityTypeMapping TypeName="ECMDemoModel.ContactPerson">
+              <MappingFragment StoreEntitySet="ContactPerson">
+                <ScalarProperty Name="Note" ColumnName="Note" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
+                <ScalarProperty Name="PersonalPhoneNumber" ColumnName="PersonalPhoneNumber" />
+                <ScalarProperty Name="OfficePhoneNumber" ColumnName="OfficePhoneNumber" />
+                <ScalarProperty Name="Position" ColumnName="Position" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="PartnerId" ColumnName="PartnerId" />
+                <ScalarProperty Name="ContactPersonId" ColumnName="ContactPersonId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Departments">
+            <EntityTypeMapping TypeName="ECMDemoModel.Department">
+              <MappingFragment StoreEntitySet="Department">
+                <ScalarProperty Name="IsDeleted" ColumnName="IsDeleted" />
+                <ScalarProperty Name="ParentId" ColumnName="ParentId" />
+                <ScalarProperty Name="LeaderId" ColumnName="LeaderId" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="DepartmentId" ColumnName="DepartmentId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Directories">
+            <EntityTypeMapping TypeName="ECMDemoModel.Directory">
+              <MappingFragment StoreEntitySet="Directory">
+                <ScalarProperty Name="ModuleId" ColumnName="ModuleId" />
+                <ScalarProperty Name="IsDelete" ColumnName="IsDelete" />
+                <ScalarProperty Name="LastModifiedByUserId" ColumnName="LastModifiedByUserId" />
+                <ScalarProperty Name="LastModifiedOnDate" ColumnName="LastModifiedOnDate" />
+                <ScalarProperty Name="CreatedOnDate" ColumnName="CreatedOnDate" />
+                <ScalarProperty Name="CreatedByUserId" ColumnName="CreatedByUserId" />
+                <ScalarProperty Name="DepartmentId" ColumnName="DepartmentId" />
+                <ScalarProperty Name="ParentId" ColumnName="ParentId" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="DirectoryId" ColumnName="DirectoryId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Documents">
+            <EntityTypeMapping TypeName="ECMDemoModel.Document">
+              <MappingFragment StoreEntitySet="Document">
+                <ScalarProperty Name="IsDelete" ColumnName="IsDelete" />
+                <ScalarProperty Name="LastModifiedOnDate" ColumnName="LastModifiedOnDate" />
+                <ScalarProperty Name="LastModifiedByUserId" ColumnName="LastModifiedByUserId" />
+                <ScalarProperty Name="CreatedOnDate" ColumnName="CreatedOnDate" />
+                <ScalarProperty Name="CreatedByUserId" ColumnName="CreatedByUserId" />
+                <ScalarProperty Name="DirectoryId" ColumnName="DirectoryId" />
+                <ScalarProperty Name="DocumentType" ColumnName="DocumentType" />
+                <ScalarProperty Name="FileCates" ColumnName="FileCates" />
+                <ScalarProperty Name="FileUrl" ColumnName="FileUrl" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="DocumentId" ColumnName="DocumentId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="DocumentCategories">
+            <EntityTypeMapping TypeName="ECMDemoModel.DocumentCategory">
+              <MappingFragment StoreEntitySet="DocumentCategory">
+                <ScalarProperty Name="CategoryGroupId" ColumnName="CategoryGroupId" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="CategoryId" ColumnName="CategoryId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="DocumentCategoryGroups">
+            <EntityTypeMapping TypeName="ECMDemoModel.DocumentCategoryGroup">
+              <MappingFragment StoreEntitySet="DocumentCategoryGroup">
+                <ScalarProperty Name="Active" ColumnName="Active" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="DocumentCateGroupId" ColumnName="DocumentCateGroupId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="DocumentConfirms">
+            <EntityTypeMapping TypeName="ECMDemoModel.DocumentConfirm">
+              <MappingFragment StoreEntitySet="DocumentConfirm">
+                <ScalarProperty Name="PriorityLevel" ColumnName="PriorityLevel" />
+                <ScalarProperty Name="IsFinished" ColumnName="IsFinished" />
+                <ScalarProperty Name="ModuleId" ColumnName="ModuleId" />
+                <ScalarProperty Name="RelatedDocumentId" ColumnName="RelatedDocumentId" />
+                <ScalarProperty Name="UpdatedByUserId" ColumnName="UpdatedByUserId" />
+                <ScalarProperty Name="UpdatedOnDate" ColumnName="UpdatedOnDate" />
+                <ScalarProperty Name="CreatedByUserId" ColumnName="CreatedByUserId" />
+                <ScalarProperty Name="CreatedOnDate" ColumnName="CreatedOnDate" />
+                <ScalarProperty Name="FinishedOnDate" ColumnName="FinishedOnDate" />
+                <ScalarProperty Name="UserId" ColumnName="UserId" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="ConfirmId" ColumnName="ConfirmId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="DocumentProcesses">
+            <EntityTypeMapping TypeName="ECMDemoModel.DocumentProcess">
+              <MappingFragment StoreEntitySet="DocumentProcess">
+                <ScalarProperty Name="CreatedOnDate" ColumnName="CreatedOnDate" />
+                <ScalarProperty Name="Status" ColumnName="Status" />
+                <ScalarProperty Name="TaskType" ColumnName="TaskType" />
+                <ScalarProperty Name="RelatedId" ColumnName="RelatedId" />
+                <ScalarProperty Name="OrderIndex" ColumnName="OrderIndex" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="DocumentStatus">
+            <EntityTypeMapping TypeName="ECMDemoModel.DocumentStatus">
+              <MappingFragment StoreEntitySet="DocumentStatus">
+                <ScalarProperty Name="DisplayName" ColumnName="DisplayName" />
+                <ScalarProperty Name="RegisterRelatedId" ColumnName="RegisterRelatedId" />
+                <ScalarProperty Name="RegisterStatus" ColumnName="RegisterStatus" />
+                <ScalarProperty Name="PerformRelatedId" ColumnName="PerformRelatedId" />
+                <ScalarProperty Name="PerformStatus" ColumnName="PerformStatus" />
+                <ScalarProperty Name="ConfirmRelatedId" ColumnName="ConfirmRelatedId" />
+                <ScalarProperty Name="ConfirmStatus" ColumnName="ConfirmStatus" />
+                <ScalarProperty Name="UnifyRelatedId" ColumnName="UnifyRelatedId" />
+                <ScalarProperty Name="UnifyStatus" ColumnName="UnifyStatus" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="DocumentUnifies">
+            <EntityTypeMapping TypeName="ECMDemoModel.DocumentUnify">
+              <MappingFragment StoreEntitySet="DocumentUnify">
+                <ScalarProperty Name="ModuleId" ColumnName="ModuleId" />
+                <ScalarProperty Name="IsFinished" ColumnName="IsFinished" />
+                <ScalarProperty Name="RelatedDocumentId" ColumnName="RelatedDocumentId" />
+                <ScalarProperty Name="Status" ColumnName="Status" />
+                <ScalarProperty Name="UpdatedOnDate" ColumnName="UpdatedOnDate" />
+                <ScalarProperty Name="UpdatedByUserId" ColumnName="UpdatedByUserId" />
+                <ScalarProperty Name="CreatedByUserId" ColumnName="CreatedByUserId" />
+                <ScalarProperty Name="CreatedOnDate" ColumnName="CreatedOnDate" />
+                <ScalarProperty Name="PriorityLevel" ColumnName="PriorityLevel" />
+                <ScalarProperty Name="TaskType" ColumnName="TaskType" />
+                <ScalarProperty Name="FinishedOnDate" ColumnName="FinishedOnDate" />
+                <ScalarProperty Name="UserList" ColumnName="UserList" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="UnifyId" ColumnName="UnifyId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="EnterpriseUnits">
+            <EntityTypeMapping TypeName="ECMDemoModel.EnterpriseUnit">
+              <MappingFragment StoreEntitySet="EnterpriseUnit">
+                <ScalarProperty Name="Note" ColumnName="Note" />
+                <ScalarProperty Name="PhoneNumber" ColumnName="PhoneNumber" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
+                <ScalarProperty Name="Fax" ColumnName="Fax" />
+                <ScalarProperty Name="ActualAddress" ColumnName="ActualAddress" />
+                <ScalarProperty Name="RegisteredAddress" ColumnName="RegisteredAddress" />
+                <ScalarProperty Name="BusinessRegisteredCode" ColumnName="BusinessRegisteredCode" />
+                <ScalarProperty Name="BusinessCode" ColumnName="BusinessCode" />
+                <ScalarProperty Name="AgencyCode" ColumnName="AgencyCode" />
+                <ScalarProperty Name="TaxCode" ColumnName="TaxCode" />
+                <ScalarProperty Name="BusinessTypeId" ColumnName="BusinessTypeId" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="EnterpriseUnitId" ColumnName="EnterpriseUnitId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="InternalDocuments">
+            <EntityTypeMapping TypeName="ECMDemoModel.InternalDocument">
+              <MappingFragment StoreEntitySet="InternalDocument">
+                <ScalarProperty Name="AttachedFileUrl" ColumnName="AttachedFileUrl" />
+                <ScalarProperty Name="IsDelete" ColumnName="IsDelete" />
+                <ScalarProperty Name="LastModifiedOnDate" ColumnName="LastModifiedOnDate" />
+                <ScalarProperty Name="LastModifiedByUserId" ColumnName="LastModifiedByUserId" />
+                <ScalarProperty Name="CreatedOnDate" ColumnName="CreatedOnDate" />
+                <ScalarProperty Name="CreatedByUserId" ColumnName="CreatedByUserId" />
+                <ScalarProperty Name="ResignedOnDate" ColumnName="ResignedOnDate" />
+                <ScalarProperty Name="ResignedNumber" ColumnName="ResignedNumber" />
+                <ScalarProperty Name="ResponsibleUserId" ColumnName="ResponsibleUserId" />
+                <ScalarProperty Name="WrittenByUserId" ColumnName="WrittenByUserId" />
+                <ScalarProperty Name="DocumentProcessId" ColumnName="DocumentProcessId" />
+                <ScalarProperty Name="DocumentStatusId" ColumnName="DocumentStatusId" />
+                <ScalarProperty Name="DepartmentId" ColumnName="DepartmentId" />
+                <ScalarProperty Name="ProjectId" ColumnName="ProjectId" />
+                <ScalarProperty Name="SecretLevel" ColumnName="SecretLevel" />
+                <ScalarProperty Name="CategoryId" ColumnName="CategoryId" />
+                <ScalarProperty Name="DirectoryId" ColumnName="DirectoryId" />
+                <ScalarProperty Name="Summary" ColumnName="Summary" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="InternalDocumentId" ColumnName="InternalDocumentId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="QH_BusinessPartner_ContactPerson">
+            <EntityTypeMapping TypeName="ECMDemoModel.QH_BusinessPartner_ContactPerson">
+              <MappingFragment StoreEntitySet="QH_BusinessPartner_ContactPerson">
+                <ScalarProperty Name="IndexOrder" ColumnName="IndexOrder" />
+                <ScalarProperty Name="CreatedOnDate" ColumnName="CreatedOnDate" />
+                <ScalarProperty Name="BusinessPartnerId" ColumnName="BusinessPartnerId" />
+                <ScalarProperty Name="ContactPersonId" ColumnName="ContactPersonId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="QH_DocumentConfirm_User">
+            <EntityTypeMapping TypeName="ECMDemoModel.QH_DocumentConfirm_User">
+              <MappingFragment StoreEntitySet="QH_DocumentConfirm_User">
+                <ScalarProperty Name="ResponseStatus" ColumnName="ResponseStatus" />
+                <ScalarProperty Name="CreatedOnDate" ColumnName="CreatedOnDate" />
+                <ScalarProperty Name="Note" ColumnName="Note" />
+                <ScalarProperty Name="DocumentConfirmId" ColumnName="DocumentConfirmId" />
+                <ScalarProperty Name="UserId" ColumnName="UserId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="QH_DocumentPerform_User">
+            <EntityTypeMapping TypeName="ECMDemoModel.QH_DocumentPerform_User">
+              <MappingFragment StoreEntitySet="QH_DocumentPerform_User">
+                <ScalarProperty Name="CreatedOnDate" ColumnName="CreatedOnDate" />
+                <ScalarProperty Name="Note" ColumnName="Note" />
+                <ScalarProperty Name="ResponseStatus" ColumnName="ResponseStatus" />
+                <ScalarProperty Name="DocumentPerformId" ColumnName="DocumentPerformId" />
+                <ScalarProperty Name="UserId" ColumnName="UserId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="QH_DocumentUnify_User">
+            <EntityTypeMapping TypeName="ECMDemoModel.QH_DocumentUnify_User">
+              <MappingFragment StoreEntitySet="QH_DocumentUnify_User">
+                <ScalarProperty Name="CreatedOnDate" ColumnName="CreatedOnDate" />
+                <ScalarProperty Name="Note" ColumnName="Note" />
+                <ScalarProperty Name="ResponseStatus" ColumnName="ResponseStatus" />
+                <ScalarProperty Name="DocumentUnifyId" ColumnName="DocumentUnifyId" />
+                <ScalarProperty Name="UserId" ColumnName="UserId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="QH_ReceivedDocument_File">
+            <EntityTypeMapping TypeName="ECMDemoModel.QH_ReceivedDocument_File">
+              <MappingFragment StoreEntitySet="QH_ReceivedDocument_File">
+                <ScalarProperty Name="CreatedOnDate" ColumnName="CreatedOnDate" />
+                <ScalarProperty Name="IsOriginal" ColumnName="IsOriginal" />
+                <ScalarProperty Name="FileId" ColumnName="FileId" />
+                <ScalarProperty Name="ReceivedDocumentId" ColumnName="ReceivedDocumentId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="QH_SendDocument_File">
+            <EntityTypeMapping TypeName="ECMDemoModel.QH_SendDocument_File">
+              <MappingFragment StoreEntitySet="QH_SendDocument_File">
+                <ScalarProperty Name="CreatedOnDate" ColumnName="CreatedOnDate" />
+                <ScalarProperty Name="IsOriginal" ColumnName="IsOriginal" />
+                <ScalarProperty Name="FileId" ColumnName="FileId" />
+                <ScalarProperty Name="SendDocumentId" ColumnName="SendDocumentId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ReceivedDocuments">
+            <EntityTypeMapping TypeName="ECMDemoModel.ReceivedDocument">
+              <MappingFragment StoreEntitySet="ReceivedDocument">
+                <ScalarProperty Name="AttachedFileUrl" ColumnName="AttachedFileUrl" />
+                <ScalarProperty Name="IsDelete" ColumnName="IsDelete" />
+                <ScalarProperty Name="LastModifiedOnDate" ColumnName="LastModifiedOnDate" />
+                <ScalarProperty Name="LastModifiedByUserId" ColumnName="LastModifiedByUserId" />
+                <ScalarProperty Name="CreatedOnDate" ColumnName="CreatedOnDate" />
+                <ScalarProperty Name="CreatedByUserId" ColumnName="CreatedByUserId" />
+                <ScalarProperty Name="ResignedOnDate" ColumnName="ResignedOnDate" />
+                <ScalarProperty Name="ResignedNumber" ColumnName="ResignedNumber" />
+                <ScalarProperty Name="ResponsibleUserId" ColumnName="ResponsibleUserId" />
+                <ScalarProperty Name="DocumentProcessId" ColumnName="DocumentProcessId" />
+                <ScalarProperty Name="DocumentStatusId" ColumnName="DocumentStatusId" />
+                <ScalarProperty Name="SecretLevel" ColumnName="SecretLevel" />
+                <ScalarProperty Name="DeliveryMethodId" ColumnName="DeliveryMethodId" />
+                <ScalarProperty Name="DepartmentId" ColumnName="DepartmentId" />
+                <ScalarProperty Name="ReceiverUserId" ColumnName="ReceiverUserId" />
+                <ScalarProperty Name="ReceiverId" ColumnName="ReceiverId" />
+                <ScalarProperty Name="DocumentIndex" ColumnName="DocumentIndex" />
+                <ScalarProperty Name="DocumentDate" ColumnName="DocumentDate" />
+                <ScalarProperty Name="SignedByUserId" ColumnName="SignedByUserId" />
+                <ScalarProperty Name="SenderId" ColumnName="SenderId" />
+                <ScalarProperty Name="CategoryId" ColumnName="CategoryId" />
+                <ScalarProperty Name="Summary" ColumnName="Summary" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="ReceivedDocumentId" ColumnName="ReceivedDocumentId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="SendDocuments">
+            <EntityTypeMapping TypeName="ECMDemoModel.SendDocument">
+              <MappingFragment StoreEntitySet="SendDocument">
+                <ScalarProperty Name="IsDelete" ColumnName="IsDelete" />
+                <ScalarProperty Name="LastModifiedOnDate" ColumnName="LastModifiedOnDate" />
+                <ScalarProperty Name="LastModifiedByUserId" ColumnName="LastModifiedByUserId" />
+                <ScalarProperty Name="CreatedOnDate" ColumnName="CreatedOnDate" />
+                <ScalarProperty Name="CreatedByUserId" ColumnName="CreatedByUserId" />
+                <ScalarProperty Name="AttachedFileUrl" ColumnName="AttachedFileUrl" />
+                <ScalarProperty Name="ResignedOnDate" ColumnName="ResignedOnDate" />
+                <ScalarProperty Name="ResignedNumber" ColumnName="ResignedNumber" />
+                <ScalarProperty Name="ResponsibleUserId" ColumnName="ResponsibleUserId" />
+                <ScalarProperty Name="DocumentProcessId" ColumnName="DocumentProcessId" />
+                <ScalarProperty Name="DocumentStatusId" ColumnName="DocumentStatusId" />
+                <ScalarProperty Name="SecretLevel" ColumnName="SecretLevel" />
+                <ScalarProperty Name="ResponseDeadline" ColumnName="ResponseDeadline" />
+                <ScalarProperty Name="DeliveryMethodId" ColumnName="DeliveryMethodId" />
+                <ScalarProperty Name="ReceiverContactPersonId" ColumnName="ReceiverContactPersonId" />
+                <ScalarProperty Name="ReceiverId" ColumnName="ReceiverId" />
+                <ScalarProperty Name="SignedByUserId" ColumnName="SignedByUserId" />
+                <ScalarProperty Name="DepartmentId" ColumnName="DepartmentId" />
+                <ScalarProperty Name="WrittenByUserId" ColumnName="WrittenByUserId" />
+                <ScalarProperty Name="ResponseForRDocId" ColumnName="ResponseForRDocId" />
+                <ScalarProperty Name="SenderId" ColumnName="SenderId" />
+                <ScalarProperty Name="CategoryId" ColumnName="CategoryId" />
+                <ScalarProperty Name="Summary" ColumnName="Summary" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="SendDocumentId" ColumnName="SendDocumentId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="TaskMessages">
+            <EntityTypeMapping TypeName="ECMDemoModel.TaskMessage">
+              <MappingFragment StoreEntitySet="TaskMessage">
+                <ScalarProperty Name="IsMyTask" ColumnName="IsMyTask" />
+                <ScalarProperty Name="RelatedId" ColumnName="RelatedId" />
+                <ScalarProperty Name="UserId" ColumnName="UserId" />
+                <ScalarProperty Name="TaskType" ColumnName="TaskType" />
+                <ScalarProperty Name="Status" ColumnName="Status" />
+                <ScalarProperty Name="Deadline" ColumnName="Deadline" />
+                <ScalarProperty Name="ModuleId" ColumnName="ModuleId" />
+                <ScalarProperty Name="CreatedOnDate" ColumnName="CreatedOnDate" />
+                <ScalarProperty Name="CreatedByUserId" ColumnName="CreatedByUserId" />
+                <ScalarProperty Name="Title" ColumnName="Title" />
+                <ScalarProperty Name="MessageId" ColumnName="MessageId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Users">
+            <EntityTypeMapping TypeName="ECMDemoModel.User">
+              <MappingFragment StoreEntitySet="User">
+                <ScalarProperty Name="IsDisable" ColumnName="IsDisable" />
+                <ScalarProperty Name="LastLoginOnDate" ColumnName="LastLoginOnDate" />
+                <ScalarProperty Name="SessionLoginCode" ColumnName="SessionLoginCode" />
+                <ScalarProperty Name="CreateOnDate" ColumnName="CreateOnDate" />
+                <ScalarProperty Name="IsDelete" ColumnName="IsDelete" />
+                <ScalarProperty Name="FullName" ColumnName="FullName" />
+                <ScalarProperty Name="DepartmentId" ColumnName="DepartmentId" />
+                <ScalarProperty Name="UserRoleId" ColumnName="UserRoleId" />
+                <ScalarProperty Name="Password" ColumnName="Password" />
+                <ScalarProperty Name="UserName" ColumnName="UserName" />
+                <ScalarProperty Name="UserId" ColumnName="UserId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="UserRoles">
+            <EntityTypeMapping TypeName="ECMDemoModel.UserRole">
+              <MappingFragment StoreEntitySet="UserRole">
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="UserRoleId" ColumnName="UserRoleId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="DocumentPerforms">
+            <EntityTypeMapping TypeName="ECMDemoModel.DocumentPerform">
+              <MappingFragment StoreEntitySet="DocumentPerform">
+                <ScalarProperty Name="ModuleId" ColumnName="ModuleId" />
+                <ScalarProperty Name="IsFinished" ColumnName="IsFinished" />
+                <ScalarProperty Name="RelatedDocumentId" ColumnName="RelatedDocumentId" />
+                <ScalarProperty Name="Status" ColumnName="Status" />
+                <ScalarProperty Name="UpdatedOnDate" ColumnName="UpdatedOnDate" />
+                <ScalarProperty Name="UpdatedByUserId" ColumnName="UpdatedByUserId" />
+                <ScalarProperty Name="CreatedByUserId" ColumnName="CreatedByUserId" />
+                <ScalarProperty Name="CreatedOnDate" ColumnName="CreatedOnDate" />
+                <ScalarProperty Name="PriorityLevel" ColumnName="PriorityLevel" />
+                <ScalarProperty Name="TaskType" ColumnName="TaskType" />
+                <ScalarProperty Name="FinishedOnDate" ColumnName="FinishedOnDate" />
+                <ScalarProperty Name="UserList" ColumnName="UserList" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="PerformId" ColumnName="PerformId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
