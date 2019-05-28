@@ -12,20 +12,12 @@ namespace ECMDemo.Data
     using System;
     using System.Collections.Generic;
     
-    public partial class Document
+    public partial class QH_ShareDocument_Department
     {
         public int DocumentId { get; set; }
-        public string Name { get; set; }
-        public string Description { get; set; }
-        public string FileUrl { get; set; }
-        public string FileCates { get; set; }
-        public bool DocumentType { get; set; }
-        public int DirectoryId { get; set; }
+        public int DepartmentId { get; set; }
         public int CreatedByUserId { get; set; }
         public System.DateTime CreatedOnDate { get; set; }
-        public int LastModifiedByUserId { get; set; }
-        public System.DateTime LastModifiedOnDate { get; set; }
-        public bool IsDelete { get; set; }
-        public int DepartmentId { get; set; }
+        public string Message { get; set; }
     }
 }
