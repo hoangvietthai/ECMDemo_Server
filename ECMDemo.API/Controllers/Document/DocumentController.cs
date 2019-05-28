@@ -72,7 +72,8 @@ namespace ECMDemo.API.Controllers
         [APIAuthorize(Roles = "Admin,Special")]
         public IHttpActionResult Create(DocumentCreateModel createModel)
         {
-            var result = handler.Create(createModel);
+            string UserId = Request.Headers.GetValues("UserId").FirstOrDefault();
+            var result = handler.Create(Convert.ToInt32(UserId),createModel);
             return Ok(result);
         }
         [HttpPut]
@@ -91,6 +92,26 @@ namespace ECMDemo.API.Controllers
         public IHttpActionResult Delete(int Id)
         {
             var result = handler.Delete(Id);
+            return Ok(result);
+        }
+        [HttpPost]
+        [Route("document/shares")]
+        [EnableCors(origins: "*", headers: "*", methods: "*")]
+        [APIAuthorize(Roles = "Special")]
+        public IHttpActionResult ShareToDepartment(ShareDocumentModel model)
+        {
+            string UserId = Request.Headers.GetValues("UserId").FirstOrDefault();
+            var result = handler.ShareToDepartment(Convert.ToInt32(UserId),model);
+            return Ok(result);
+        }
+        [HttpGet]
+        [Route("document/shares")]
+        [EnableCors(origins: "*", headers: "*", methods: "*")]
+       
+        public IHttpActionResult GetShareDocuments()
+        {
+            string UserId = Request.Headers.GetValues("UserId").FirstOrDefault();
+            var result = handler.GetShareDocuments(Convert.ToInt32(UserId));
             return Ok(result);
         }
     }

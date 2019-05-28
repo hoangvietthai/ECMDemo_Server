@@ -63,4 +63,10 @@ namespace ECMDemo.Business.Model
         public DateTime? StartDate { get; set; }
         public DateTime? EndDate { get; set; }
     }
+    public class ShareDocumentModel
+    {
+        public int DocumentId { get; set; }
+        public int DepartmentId { get; set; }
+        public string Message { get; set; }
+    }
 }

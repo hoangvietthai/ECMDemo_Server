@@ -10,7 +10,6 @@
         <EntityTypeShape EntityType="ECMDemoModel.ContactPerson" Width="1.5" PointX="4.75" PointY="0.75" />
         <EntityTypeShape EntityType="ECMDemoModel.Department" Width="1.5" PointX="4.75" PointY="4.75" />
         <EntityTypeShape EntityType="ECMDemoModel.Directory" Width="1.5" PointX="0.75" PointY="5.75" />
-        <EntityTypeShape EntityType="ECMDemoModel.Document" Width="1.5" PointX="6.75" PointY="0.75" />
         <EntityTypeShape EntityType="ECMDemoModel.DocumentCategory" Width="1.5" PointX="6.75" PointY="5.75" />
         <EntityTypeShape EntityType="ECMDemoModel.DocumentCategoryGroup" Width="1.5" PointX="2.75" PointY="7.75" />
         <EntityTypeShape EntityType="ECMDemoModel.DocumentConfirm" Width="1.5" PointX="8.75" PointY="0.75" />
@@ -31,6 +30,8 @@
         <EntityTypeShape EntityType="ECMDemoModel.User" Width="1.5" PointX="6.75" PointY="13.75" />
         <EntityTypeShape EntityType="ECMDemoModel.UserRole" Width="1.5" PointX="14.75" PointY="0.75" />
         <EntityTypeShape EntityType="ECMDemoModel.DocumentPerform" Width="1.5" PointX="9.375" PointY="14.75" />
+        <EntityTypeShape EntityType="ECMDemoModel.QH_ShareDocument_Department" Width="1.5" PointX="3.375" PointY="10.75" />
+        <EntityTypeShape EntityType="ECMDemoModel.Document" Width="1.5" PointX="15.375" PointY="3.75" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>
