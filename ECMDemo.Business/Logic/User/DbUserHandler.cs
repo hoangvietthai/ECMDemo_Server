@@ -241,7 +241,7 @@ namespace ECMDemo.Business.Handler
                     var user = unitOfWork.GetRepository<User>().GetById(Id);
                     if (user != null)
                     {
-                        
+                        user.UserName = userUpdateModel.UserName;
                         user.FullName = userUpdateModel.FullName;
                         user.DepartmentId = userUpdateModel.DepartmentId;
                         user.Password = EncryptionLib.EncryptText(userUpdateModel.Password);

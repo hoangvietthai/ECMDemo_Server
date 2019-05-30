@@ -99,7 +99,7 @@ namespace ECMDemo.Business.Handler
                     var _list = unitOfWork.GetRepository<SendDocument>().GetMany(d => d.IsDelete == false);
                     if (user.UserRoleId > 1)
                     {
-                        _list=_list.Where(d => d.DepartmentId == user.DepartmentId && (d.CreatedByUserId == UserId || d.ResignedNumber != null));
+                        _list=_list.Where(d => d.DepartmentId == user.DepartmentId);
                     }
                     
                     var list = _list
