@@ -59,6 +59,14 @@ namespace ECMDemo.API.Controllers
             return Ok(result);
         }
         [HttpGet]
+        [Route("document")]
+        [EnableCors(origins: "*", headers: "*", methods: "*")]
+        public IHttpActionResult GetByDepartment(int DepartmentId)
+        {
+            var result = handler.GetAllInDepartment(DepartmentId);
+            return Ok(result);
+        }
+        [HttpGet]
         [Route("document/{Id}")]
         [EnableCors(origins: "*", headers: "*", methods: "*")]
         public IHttpActionResult GetById(int Id)

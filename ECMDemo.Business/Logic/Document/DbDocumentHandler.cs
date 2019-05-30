@@ -448,5 +448,38 @@ namespace ECMDemo.Business.Handler
             }
         }
 
+        public Response<List<DocumentDisplayModel>> GetAllInDepartment(int DepartmentId)
+        {
+            try
+            {
+                using (var unitOfWork = new UnitOfWork())
+                {
+                    var list = unitOfWork.GetRepository<Document>().GetMany(u => u.IsDelete == false && u.DepartmentId == DepartmentId)
+                          .Join(unitOfWork.GetRepository<User>().GetAll(),
+                        d => d.CreatedByUserId,
+                        u => u.UserId,
+                        (d, u) => new DocumentDisplayModel
+                        {
+                            CreatedByUserId = d.CreatedByUserId,
+                            CreatedOnDate = d.CreatedOnDate,
+                            DocumentId = d.DocumentId,
+                            FileCates = d.FileCates,
+                            FileUrl = d.FileUrl,
+                            LastModifiedByUserId = d.LastModifiedByUserId,
+                            LastModifiedOnDate = d.LastModifiedOnDate,
+                            Name = d.Name,
+                            CreatedByUserName = u.UserName,
+
+                        })
+                        .OrderByDescending(u => u.DocumentId)
+                        .ToList();
+                    return new Response<List<DocumentDisplayModel>>(1, "", list);
+                }
+            }
+            catch (Exception ex)
+            {
+                return new Response<List<DocumentDisplayModel>>(-1, ex.ToString(), null);
+            }
+        }
     }
 }
