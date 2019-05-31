@@ -103,6 +103,24 @@ namespace ECMDemo.Business.Handler
                     }
                     
                     var list = _list
+                         .Join(unitOfWork.GetRepository<Department>().GetAll(),
+                            d => d.DepartmentId,
+                            u => u.DepartmentId,
+                            (d, u) => new
+                            {
+                                ReceiverId = d.ReceiverId,
+                                SendDocumentId = d.SendDocumentId,
+                                DepartmentName = u.Name,
+                                Summary = d.Summary,
+                                ResignedNumber = d.ResignedNumber,
+                                ResignedOnDate = d.ResignedOnDate,
+                                SignedByUserId = d.SignedByUserId,
+                                CreatedOnDate = d.CreatedOnDate,
+                                Name = d.Name,
+                                DocumentStatusId = d.DocumentStatusId,
+                                DocumentProcessId = d.DocumentProcessId
+                            }
+                        )
                         .Join(unitOfWork.GetRepository<User>().GetAll(),
                         d => d.SignedByUserId,
                         u => u.UserId,
@@ -110,6 +128,7 @@ namespace ECMDemo.Business.Handler
                         {
                             ReceiverId = d.ReceiverId,
                             SendDocumentId = d.SendDocumentId,
+                            DepartmentName = d.DepartmentName,
                             Summary = d.Summary,
                             ResignedNumber = d.ResignedNumber,
                             ResignedOnDate = d.ResignedOnDate,
@@ -127,6 +146,7 @@ namespace ECMDemo.Business.Handler
                             {
                                 SendDocumentId = d.SendDocumentId,
                                 Receiver = b.Name,
+                                DepartmentName = d.DepartmentName,
                                 ResignedNumber = d.ResignedNumber,
                                 ResignedOnDate = d.ResignedOnDate,
                                 SignedByUserFullName = d.SignedByUserFullName,
