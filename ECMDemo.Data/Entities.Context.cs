@@ -12,7 +12,7 @@ namespace ECMDemo.Data
     using System;
     using System.Data.Entity;
     using System.Data.Entity.Infrastructure;
-
+    
     public partial class Entities : DbContext
     {
         public Entities()
@@ -26,12 +26,10 @@ namespace ECMDemo.Data
         }
     
         public virtual DbSet<BlackTokenList> BlackTokenLists { get; set; }
-
         public virtual DbSet<BusinessPartner> BusinessPartners { get; set; }
         public virtual DbSet<ContactPerson> ContactPersons { get; set; }
         public virtual DbSet<Department> Departments { get; set; }
         public virtual DbSet<Directory> Directories { get; set; }
-        public virtual DbSet<Document> Documents { get; set; }
         public virtual DbSet<DocumentCategory> DocumentCategories { get; set; }
         public virtual DbSet<DocumentCategoryGroup> DocumentCategoryGroups { get; set; }
         public virtual DbSet<DocumentConfirm> DocumentConfirms { get; set; }
@@ -52,5 +50,7 @@ namespace ECMDemo.Data
         public virtual DbSet<User> Users { get; set; }
         public virtual DbSet<UserRole> UserRoles { get; set; }
         public virtual DbSet<DocumentPerform> DocumentPerforms { get; set; }
+        public virtual DbSet<QH_ShareDocument_Department> QH_ShareDocument_Department { get; set; }
+        public virtual DbSet<Document> Documents { get; set; }
     }
 }

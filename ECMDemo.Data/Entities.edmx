@@ -89,6 +89,7 @@
           <Property Name="LastModifiedByUserId" Type="int" Nullable="false" />
           <Property Name="LastModifiedOnDate" Type="datetime" Nullable="false" />
           <Property Name="IsDelete" Type="bit" Nullable="false" />
+          <Property Name="DepartmentId" Type="int" Nullable="false" />
         </EntityType>
         <EntityType Name="DocumentCategory">
           <Key>
@@ -296,6 +297,17 @@
           <Property Name="IsOriginal" Type="bit" Nullable="false" />
           <Property Name="CreatedOnDate" Type="datetime" Nullable="false" />
         </EntityType>
+        <EntityType Name="QH_ShareDocument_Department">
+          <Key>
+            <PropertyRef Name="DocumentId" />
+            <PropertyRef Name="DepartmentId" />
+          </Key>
+          <Property Name="DocumentId" Type="int" Nullable="false" />
+          <Property Name="DepartmentId" Type="int" Nullable="false" />
+          <Property Name="CreatedByUserId" Type="int" Nullable="false" />
+          <Property Name="CreatedOnDate" Type="datetime" Nullable="false" />
+          <Property Name="Message" Type="nvarchar" MaxLength="500" />
+        </EntityType>
         <EntityType Name="ReceivedDocument">
           <Key>
             <PropertyRef Name="ReceivedDocumentId" />
@@ -417,6 +429,7 @@
           <EntitySet Name="QH_DocumentUnify_User" EntityType="Self.QH_DocumentUnify_User" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="QH_ReceivedDocument_File" EntityType="Self.QH_ReceivedDocument_File" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="QH_SendDocument_File" EntityType="Self.QH_SendDocument_File" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="QH_ShareDocument_Department" EntityType="Self.QH_ShareDocument_Department" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="ReceivedDocument" EntityType="Self.ReceivedDocument" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="SendDocument" EntityType="Self.SendDocument" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="TaskMessage" EntityType="Self.TaskMessage" Schema="dbo" store:Type="Tables" />
@@ -433,7 +446,6 @@
           <EntitySet Name="ContactPersons" EntityType="ECMDemoModel.ContactPerson" />
           <EntitySet Name="Departments" EntityType="ECMDemoModel.Department" />
           <EntitySet Name="Directories" EntityType="ECMDemoModel.Directory" />
-          <EntitySet Name="Documents" EntityType="ECMDemoModel.Document" />
           <EntitySet Name="DocumentCategories" EntityType="ECMDemoModel.DocumentCategory" />
           <EntitySet Name="DocumentCategoryGroups" EntityType="ECMDemoModel.DocumentCategoryGroup" />
           <EntitySet Name="DocumentConfirms" EntityType="ECMDemoModel.DocumentConfirm" />
@@ -454,6 +466,8 @@
           <EntitySet Name="Users" EntityType="ECMDemoModel.User" />
           <EntitySet Name="UserRoles" EntityType="ECMDemoModel.UserRole" />
           <EntitySet Name="DocumentPerforms" EntityType="ECMDemoModel.DocumentPerform" />
+          <EntitySet Name="QH_ShareDocument_Department" EntityType="ECMDemoModel.QH_ShareDocument_Department" />
+          <EntitySet Name="Documents" EntityType="ECMDemoModel.Document" />
         </EntityContainer>
         <EntityType Name="BlackTokenList">
           <Key>
@@ -522,23 +536,6 @@
           <Property Name="LastModifiedByUserId" Type="Int32" Nullable="false" />
           <Property Name="IsDelete" Type="Boolean" Nullable="false" />
           <Property Name="ModuleId" Type="Int32" Nullable="false" />
-        </EntityType>
-        <EntityType Name="Document">
-          <Key>
-            <PropertyRef Name="DocumentId" />
-          </Key>
-          <Property Name="DocumentId" Type="Int32" Nullable="false" />
-          <Property Name="Name" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="Description" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
-          <Property Name="FileUrl" Type="String" Nullable="false" MaxLength="500" FixedLength="false" Unicode="true" />
-          <Property Name="FileCates" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="DocumentType" Type="Boolean" Nullable="false" />
-          <Property Name="DirectoryId" Type="Int32" Nullable="false" />
-          <Property Name="CreatedByUserId" Type="Int32" Nullable="false" />
-          <Property Name="CreatedOnDate" Type="DateTime" Nullable="false" Precision="3" />
-          <Property Name="LastModifiedByUserId" Type="Int32" Nullable="false" />
-          <Property Name="LastModifiedOnDate" Type="DateTime" Nullable="false" Precision="3" />
-          <Property Name="IsDelete" Type="Boolean" Nullable="false" />
         </EntityType>
         <EntityType Name="DocumentCategory">
           <Key>
@@ -845,6 +842,35 @@
           <Property Name="IsFinished" Type="Int32" Nullable="false" />
           <Property Name="ModuleId" Type="Int32" Nullable="false" />
         </EntityType>
+        <EntityType Name="QH_ShareDocument_Department">
+          <Key>
+            <PropertyRef Name="DocumentId" />
+            <PropertyRef Name="DepartmentId" />
+          </Key>
+          <Property Name="DocumentId" Type="Int32" Nullable="false" />
+          <Property Name="DepartmentId" Type="Int32" Nullable="false" />
+          <Property Name="CreatedByUserId" Type="Int32" Nullable="false" />
+          <Property Name="CreatedOnDate" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="Message" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="Document">
+          <Key>
+            <PropertyRef Name="DocumentId" />
+          </Key>
+          <Property Name="DocumentId" Type="Int32" Nullable="false" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Description" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="FileUrl" Type="String" Nullable="false" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="FileCates" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="DocumentType" Type="Boolean" Nullable="false" />
+          <Property Name="DirectoryId" Type="Int32" Nullable="false" />
+          <Property Name="CreatedByUserId" Type="Int32" Nullable="false" />
+          <Property Name="CreatedOnDate" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="LastModifiedByUserId" Type="Int32" Nullable="false" />
+          <Property Name="LastModifiedOnDate" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="IsDelete" Type="Boolean" Nullable="false" />
+          <Property Name="DepartmentId" Type="Int32" Nullable="false" />
+        </EntityType>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -921,24 +947,6 @@
                 <ScalarProperty Name="ParentId" ColumnName="ParentId" />
                 <ScalarProperty Name="Name" ColumnName="Name" />
                 <ScalarProperty Name="DirectoryId" ColumnName="DirectoryId" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="Documents">
-            <EntityTypeMapping TypeName="ECMDemoModel.Document">
-              <MappingFragment StoreEntitySet="Document">
-                <ScalarProperty Name="IsDelete" ColumnName="IsDelete" />
-                <ScalarProperty Name="LastModifiedOnDate" ColumnName="LastModifiedOnDate" />
-                <ScalarProperty Name="LastModifiedByUserId" ColumnName="LastModifiedByUserId" />
-                <ScalarProperty Name="CreatedOnDate" ColumnName="CreatedOnDate" />
-                <ScalarProperty Name="CreatedByUserId" ColumnName="CreatedByUserId" />
-                <ScalarProperty Name="DirectoryId" ColumnName="DirectoryId" />
-                <ScalarProperty Name="DocumentType" ColumnName="DocumentType" />
-                <ScalarProperty Name="FileCates" ColumnName="FileCates" />
-                <ScalarProperty Name="FileUrl" ColumnName="FileUrl" />
-                <ScalarProperty Name="Description" ColumnName="Description" />
-                <ScalarProperty Name="Name" ColumnName="Name" />
-                <ScalarProperty Name="DocumentId" ColumnName="DocumentId" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -1259,6 +1267,36 @@
                 <ScalarProperty Name="Description" ColumnName="Description" />
                 <ScalarProperty Name="Name" ColumnName="Name" />
                 <ScalarProperty Name="PerformId" ColumnName="PerformId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="QH_ShareDocument_Department">
+            <EntityTypeMapping TypeName="ECMDemoModel.QH_ShareDocument_Department">
+              <MappingFragment StoreEntitySet="QH_ShareDocument_Department">
+                <ScalarProperty Name="Message" ColumnName="Message" />
+                <ScalarProperty Name="CreatedOnDate" ColumnName="CreatedOnDate" />
+                <ScalarProperty Name="CreatedByUserId" ColumnName="CreatedByUserId" />
+                <ScalarProperty Name="DepartmentId" ColumnName="DepartmentId" />
+                <ScalarProperty Name="DocumentId" ColumnName="DocumentId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Documents">
+            <EntityTypeMapping TypeName="ECMDemoModel.Document">
+              <MappingFragment StoreEntitySet="Document">
+                <ScalarProperty Name="DepartmentId" ColumnName="DepartmentId" />
+                <ScalarProperty Name="IsDelete" ColumnName="IsDelete" />
+                <ScalarProperty Name="LastModifiedOnDate" ColumnName="LastModifiedOnDate" />
+                <ScalarProperty Name="LastModifiedByUserId" ColumnName="LastModifiedByUserId" />
+                <ScalarProperty Name="CreatedOnDate" ColumnName="CreatedOnDate" />
+                <ScalarProperty Name="CreatedByUserId" ColumnName="CreatedByUserId" />
+                <ScalarProperty Name="DirectoryId" ColumnName="DirectoryId" />
+                <ScalarProperty Name="DocumentType" ColumnName="DocumentType" />
+                <ScalarProperty Name="FileCates" ColumnName="FileCates" />
+                <ScalarProperty Name="FileUrl" ColumnName="FileUrl" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="DocumentId" ColumnName="DocumentId" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
