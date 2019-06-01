@@ -24,6 +24,7 @@ namespace ECMDemo.Business.Handler
                     var last = unitOfWork.GetRepository<DocumentConfirm>().GetAll().OrderByDescending(u => u.ConfirmId).FirstOrDefault();
                     if (last != null) entity.ConfirmId = last.ConfirmId + 1;
                     else entity.ConfirmId = 1;
+                    entity.RelatedDocumentId = entity.ConfirmId;
                     unitOfWork.GetRepository<DocumentConfirm>().Add(entity);
                     TaskMessage message = new TaskMessage
                     {

@@ -26,6 +26,7 @@ namespace ECMDemo.Business.Handler
                     var last = unitOfWork.GetRepository<DocumentPerform>().GetAll().OrderByDescending(u => u.PerformId).FirstOrDefault();
                     if (last != null) entity.PerformId = last.PerformId + 1;
                     else entity.PerformId = 1;
+                    entity.RelatedDocumentId = entity.PerformId;
                     unitOfWork.GetRepository<DocumentPerform>().Add(entity);
                     foreach (var item in createModel.UserList.Split(','))
                     {

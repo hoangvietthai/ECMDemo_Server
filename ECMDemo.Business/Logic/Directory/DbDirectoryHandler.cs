@@ -28,8 +28,8 @@ namespace ECMDemo.Business.Handler
                         LastModifiedOnDate = DateTime.Now,
                         Name = createModel.Name,
                         IsDelete = false,
-                        ModuleId=createModel.ModuleId,
-                        DepartmentId=createModel.DepartmentId
+                        ModuleId = createModel.ModuleId,
+                        DepartmentId = createModel.DepartmentId
                     };
 
 
@@ -86,8 +86,8 @@ namespace ECMDemo.Business.Handler
                          {
                              CreatedByUserId = u.CreatedByUserId,
                              CreatedOnDate = u.CreatedOnDate,
-                             DirectoryId=u.DirectoryId,
-                             ParentId=u.ParentId,
+                             DirectoryId = u.DirectoryId,
+                             ParentId = u.ParentId,
                              LastModifiedByUserId = u.LastModifiedByUserId,
                              LastModifiedOnDate = u.LastModifiedOnDate,
                              Name = u.Name
@@ -111,7 +111,7 @@ namespace ECMDemo.Business.Handler
                     var user = unitOfWork.GetRepository<User>().GetById(UserId);
                     if (user == null) return new Response<List<DirectoryModel>>(0, "", null);
                     var list = unitOfWork.GetRepository<Directory>().GetMany(u => u.IsDelete == false);
-                    if (user.UserRoleId>1)
+                    if (user.UserRoleId > 1)
                     {
                         list = list.Where(u => u.DepartmentId == user.DepartmentId);
                     }
@@ -155,14 +155,14 @@ namespace ECMDemo.Business.Handler
             }
         }
 
-        public Response<List<DirectoryModel>> GetByParentId(int ParentId,int ModuleId)
+        public Response<List<DirectoryModel>> GetByParentId(int ParentId, int ModuleId)
         {
             try
             {
                 using (var unitOfWork = new UnitOfWork())
                 {
                     var list = unitOfWork.GetRepository<Directory>()
-                        .GetMany(u => u.IsDelete == false && u.ParentId==ParentId && u.ModuleId== ModuleId)
+                        .GetMany(u => u.IsDelete == false && u.ParentId == ParentId && u.ModuleId == ModuleId)
                          .Select(u => new DirectoryModel
                          {
                              CreatedByUserId = u.CreatedByUserId,
@@ -172,7 +172,7 @@ namespace ECMDemo.Business.Handler
                              LastModifiedByUserId = u.LastModifiedByUserId,
                              LastModifiedOnDate = u.LastModifiedOnDate,
                              Name = u.Name
-                             
+
                          })
                          .OrderByDescending(u => u.DirectoryId)
                          .ToList();
@@ -185,7 +185,7 @@ namespace ECMDemo.Business.Handler
             }
         }
 
-        public Response<List<DirectoryNodeModel>> GetNodes(int ModuleId,int UserId)
+        public Response<List<DirectoryNodeModel>> GetNodes(int ModuleId, int UserId)
         {
             try
             {
@@ -193,23 +193,35 @@ namespace ECMDemo.Business.Handler
                 {
                     var user = unitOfWork.GetRepository<User>().GetById(UserId);
                     if (user == null) return new Response<List<DirectoryNodeModel>>(0, "", null);
-                    var list = unitOfWork.GetRepository<Directory>().GetMany(u => u.IsDelete == false && u.ModuleId == ModuleId);
-                    if (user.UserRoleId > 1)
+                    var childrens = unitOfWork.GetRepository<Directory>().GetMany(u => u.IsDelete == false && u.ModuleId == ModuleId).ToList();
+                    List<DirectoryNodeModel> nodes = new List<DirectoryNodeModel>();
+                    if (user.UserRoleId == 1)
                     {
-                        list = list.Where(c => c.DepartmentId == user.DepartmentId);
+                        var departments=unitOfWork.GetRepository<Department>().GetAll().Select(d => new
+                        {
+                            DepartmentId = d.DepartmentId,
+                            Name = d.Name
+                        }).ToList();
+                        foreach(var dep in departments)
+                        {
+                            var department_node = new DirectoryNodeModel
+                            {
+                                data = dep.DepartmentId,
+                                ParentId = -1,
+                                label = dep.Name,
+                                expandedIcon = "fa fa-folder-open",
+                                collapsedIcon = "fa fa-folder",
+                                children=getDepartmentNodes(childrens,dep.DepartmentId)
+                            };
+                            nodes.Add(department_node);
+                        }
+                       
                     }
-                    var result = list
-                     .Select(u => new DirectoryNodeModel
-                     {
-                         data = u.DirectoryId,
-                         ParentId = u.ParentId,
-                         label = u.Name,
-                         expandedIcon = "fa fa-folder-open",
-                         collapsedIcon = "fa fa-folder"
-                     }).ToList();
-
-                    var nlist = FlatToHierarchy(result);
-                    return new Response<List<DirectoryNodeModel>>(1, "", nlist.ToList());
+                    else
+                    {
+                        nodes=getDepartmentNodes(childrens, user.DepartmentId);
+                    }
+                    return new Response<List<DirectoryNodeModel>>(1, "", nodes);
                 }
             }
             catch (Exception ex)
@@ -217,7 +229,22 @@ namespace ECMDemo.Business.Handler
                 return new Response<List<DirectoryNodeModel>>(-1, ex.ToString(), null);
             }
         }
-
+        private List<DirectoryNodeModel> getDepartmentNodes(List<Directory> list, int DepartmentId)
+        {
+            var nodes = new List<DirectoryNodeModel>();
+            list = list.Where(c => c.DepartmentId == DepartmentId).ToList();
+            var result = list
+            .Select(u => new DirectoryNodeModel
+            {
+                data = u.DirectoryId,
+                ParentId = u.ParentId,
+                label = u.Name,
+                expandedIcon = "fa fa-folder-open",
+                collapsedIcon = "fa fa-folder"
+            }).ToList();
+            nodes = FlatToHierarchy(result).ToList();
+            return nodes;
+        }
         public Response<DirectoryModel> Update(int Id, DirectoryUpdateModel updateModel)
         {
             try
@@ -279,7 +306,7 @@ namespace ECMDemo.Business.Handler
             {
                 using (var unitOfWork = new UnitOfWork())
                 {
-                    var list = unitOfWork.GetRepository<Directory>().GetMany(u => u.IsDelete == false &&u.ModuleId==moduleid)
+                    var list = unitOfWork.GetRepository<Directory>().GetMany(u => u.IsDelete == false && u.ModuleId == moduleid)
                          .Select(u => new DirectoryModel
                          {
                              CreatedByUserId = u.CreatedByUserId,
