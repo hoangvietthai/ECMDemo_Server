@@ -278,7 +278,7 @@ namespace ECMDemo.Business.Handler
                             CreatedByUserId = entity.CreatedByUserId,
                             Deadline = entity.FinishedOnDate,
                             TaskType = (int)TaskType.PERFORM,
-                            Title = "Thống nhất lại: " + entity.Name,
+                            Title = "Thực hiện lại: " + entity.Name,
                             UserId = user_id,
                             CreatedOnDate = DateTime.Now,
                             RelatedId = entity.PerformId,

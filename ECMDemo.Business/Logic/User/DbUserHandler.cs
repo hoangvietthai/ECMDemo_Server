@@ -241,7 +241,7 @@ namespace ECMDemo.Business.Handler
                     var user = unitOfWork.GetRepository<User>().GetById(Id);
                     if (user != null)
                     {
-                        
+                        user.UserName = userUpdateModel.UserName;
                         user.FullName = userUpdateModel.FullName;
                         user.DepartmentId = userUpdateModel.DepartmentId;
                         user.Password = EncryptionLib.EncryptText(userUpdateModel.Password);
@@ -271,7 +271,7 @@ namespace ECMDemo.Business.Handler
                 {
                     var user = unitOfWork.GetRepository<User>().GetById(userId);
                     if (user == null) return new Response<List<BaseUserModel>>(0, "User doesn't exsist", null);
-                    var list = unitOfWork.GetRepository<User>().GetMany(u => u.IsDelete == false && u.UserRoleId<=user.UserRoleId &&u.UserId!=user.UserId &&user.UserRoleId>0);
+                    var list = unitOfWork.GetRepository<User>().GetMany(u => u.IsDelete == false && u.UserRoleId<user.UserRoleId && u.UserRoleId>0);
                     //if (user.UserRoleId > 0)
                     //{
                     //    list = list.Where(c => c.UserRoleId > 0);

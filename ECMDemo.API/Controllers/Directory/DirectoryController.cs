@@ -39,7 +39,7 @@ namespace ECMDemo.API.Controllers
         [HttpGet]
         [Route("directory/nodes/{ModuleId}")]
         [EnableCors(origins: "*", headers: "*", methods: "*")]
-        [APIAuthorize]
+        //[APIAuthorize]
         public IHttpActionResult GellAll(int ModuleId)
         {
             string UserId = Request.Headers.GetValues("UserId").FirstOrDefault();

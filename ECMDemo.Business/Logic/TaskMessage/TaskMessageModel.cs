@@ -61,11 +61,12 @@ namespace ECMDemo.Business.Model
     }
     public class PendingTaskModel
     {
-        public int Id { get; set; }
+        public int ModuleId { get; set; }
         public int RelatedId { get; set; }
         public int TaskType { get; set; }
-        public int Status { get; set; }
-        public System.DateTime CreatedOnDate { get; set; }
+        public string Title { get; set; }
+        public DateTime DeadLine { get; set; }
+        public string CreatedByUser { get; set; }
     }
     public class PendingTaskDetailModel
     {

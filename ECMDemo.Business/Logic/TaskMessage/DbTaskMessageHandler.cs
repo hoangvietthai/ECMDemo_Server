@@ -1,10 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using ECMDemo.Business.Common;
+﻿using ECMDemo.Business.Common;
 using ECMDemo.Business.Model;
 using ECMDemo.Data;
+using System;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace ECMDemo.Business.Handler
 {
@@ -201,12 +200,16 @@ namespace ECMDemo.Business.Handler
             }
         }
 
-        public Response<List<ExpiredTaskModule>> GetExpiredTasks()
+        public Response<List<ExpiredTaskModule>> GetExpiredTasks(int UserId)
         {
             try
             {
                 using (var unitOfWork = new UnitOfWork())
                 {
+                    var user = unitOfWork.GetRepository<User>().GetById(UserId);
+                    if (user == null) return new Response<List<ExpiredTaskModule>>(0, "", null);
+                    if (user.UserRoleId == 2) return GetExpiredTasksByDepartment(user.DepartmentId);
+               
                     List<ExpiredTaskModule> results = new List<ExpiredTaskModule>();
                     results.AddRange(unitOfWork.GetRepository<DocumentUnify>().GetMany(d => d.FinishedOnDate < DateTime.Today && d.IsFinished == 0)
                         .Join(unitOfWork.GetRepository<User>().GetAll(),
@@ -219,7 +222,7 @@ namespace ECMDemo.Business.Handler
                             DeadLine = d.FinishedOnDate,
                             Title = d.Name,
                             CreatedByUser = u.UserName,
-                            RelatedDocumentId=d.RelatedDocumentId
+                            RelatedDocumentId=d.UnifyId
                         }).ToList());
                     //
                     results.AddRange(unitOfWork.GetRepository<DocumentConfirm>().GetMany(d => d.FinishedOnDate < DateTime.Today && d.IsFinished == 0)
@@ -233,7 +236,7 @@ namespace ECMDemo.Business.Handler
                          DeadLine = d.FinishedOnDate,
                          Title = d.Name,
                          CreatedByUser = u.UserName,
-                         RelatedDocumentId = d.RelatedDocumentId
+                         RelatedDocumentId = d.ConfirmId
                      }).ToList());
                     //
                     results.AddRange(unitOfWork.GetRepository<DocumentPerform>().GetMany(d => d.FinishedOnDate < DateTime.Today && d.IsFinished == 0)
@@ -247,7 +250,7 @@ namespace ECMDemo.Business.Handler
                          DeadLine = d.FinishedOnDate,
                          Title = d.Name,
                          CreatedByUser = u.UserName,
-                         RelatedDocumentId = d.RelatedDocumentId
+                         RelatedDocumentId = d.PerformId
                      }).ToList());
                     return new Response<List<ExpiredTaskModule>>(1, "", results);
 
@@ -258,23 +261,173 @@ namespace ECMDemo.Business.Handler
                 return new Response<List<ExpiredTaskModule>>(-1, ex.ToString(), null);
             }
         }
-
-        public Response<List<PendingTaskModel>> GetPendingTasks()
+        private Response<List<ExpiredTaskModule>> GetExpiredTasksByDepartment(int DepartmentId)
         {
             try
             {
                 using (var unitOfWork = new UnitOfWork())
                 {
-                    var results = unitOfWork.GetRepository<DocumentProcess>().GetMany(d=>d.Status<2&&d.Status>=0)
-                        .Select(d => new PendingTaskModel
+                    List<ExpiredTaskModule> results = new List<ExpiredTaskModule>();
+                    results.AddRange(unitOfWork.GetRepository<DocumentUnify>().GetMany(d => d.FinishedOnDate < DateTime.Today && d.IsFinished == 0)
+                        .Join(unitOfWork.GetRepository<User>().GetMany(u=>u.DepartmentId==DepartmentId),
+                        d => d.CreatedByUserId,
+                        u => u.UserId,
+                        (d, u) => new ExpiredTaskModule
                         {
-                            CreatedOnDate = d.CreatedOnDate,
-                            RelatedId = d.RelatedId,
-                            Id = d.Id,
-                            TaskType = d.TaskType,
-                            Status=d.Status
-                        }).ToList();
+                            ModuleId = d.ModuleId,
+                            TaskType = (int)TaskType.UNIFY,
+                            DeadLine = d.FinishedOnDate,
+                            Title = d.Name,
+                            CreatedByUser = u.UserName,
+                            RelatedDocumentId = d.UnifyId
+                        }).ToList());
+                    //
+                    results.AddRange(unitOfWork.GetRepository<DocumentConfirm>().GetMany(d => d.FinishedOnDate < DateTime.Today && d.IsFinished == 0)
+                     .Join(unitOfWork.GetRepository<User>().GetMany(u => u.DepartmentId == DepartmentId),
+                     d => d.CreatedByUserId,
+                     u => u.UserId,
+                     (d, u) => new ExpiredTaskModule
+                     {
+                         ModuleId = d.ModuleId,
+                         TaskType = (int)TaskType.CONFIRM,
+                         DeadLine = d.FinishedOnDate,
+                         Title = d.Name,
+                         CreatedByUser = u.UserName,
+                         RelatedDocumentId = d.ConfirmId
+                     }).ToList());
+                    //
+                    results.AddRange(unitOfWork.GetRepository<DocumentPerform>().GetMany(d => d.FinishedOnDate < DateTime.Today && d.IsFinished == 0)
+                     .Join(unitOfWork.GetRepository<User>().GetMany(u => u.DepartmentId == DepartmentId),
+                     d => d.CreatedByUserId,
+                     u => u.UserId,
+                     (d, u) => new ExpiredTaskModule
+                     {
+                         ModuleId = d.ModuleId,
+                         TaskType = (int)TaskType.PERFORM,
+                         DeadLine = d.FinishedOnDate,
+                         Title = d.Name,
+                         CreatedByUser = u.UserName,
+                         RelatedDocumentId = d.PerformId
+                     }).ToList());
+                    return new Response<List<ExpiredTaskModule>>(1, "", results);
+
+                }
+            }
+            catch (Exception ex)
+            {
+                return new Response<List<ExpiredTaskModule>>(-1, ex.ToString(), null);
+            }
+        }
+        public Response<List<PendingTaskModel>> GetPendingTasks(int UserId)
+        {
+            try
+            {
+                using (var unitOfWork = new UnitOfWork())
+                {
+                    var user = unitOfWork.GetRepository<User>().GetById(UserId);
+                    if (user == null) return new Response<List<PendingTaskModel>>(0, "User doesn't exist!", null);
+                    if (user.UserRoleId == 2) return GetPendingTasksByDepartment(user.DepartmentId);
+                    List<PendingTaskModel> results = new List<PendingTaskModel>();
+                    results.AddRange(unitOfWork.GetRepository<DocumentUnify>().GetMany(d => d.FinishedOnDate >= DateTime.Today && d.IsFinished == 0)
+                        .Join(unitOfWork.GetRepository<User>().GetAll(),
+                        d => d.CreatedByUserId,
+                        u => u.UserId,
+                        (d, u) => new PendingTaskModel
+                        {
+                            ModuleId = d.ModuleId,
+                            TaskType = (int)TaskType.UNIFY,
+                            DeadLine = d.FinishedOnDate,
+                            Title = d.Name,
+                            CreatedByUser = u.UserName,
+                            RelatedId = d.UnifyId
+                        }).ToList());
+                    //
+                    results.AddRange(unitOfWork.GetRepository<DocumentConfirm>().GetMany(d => d.FinishedOnDate >= DateTime.Today && d.IsFinished == 0)
+                     .Join(unitOfWork.GetRepository<User>().GetAll(),
+                     d => d.CreatedByUserId,
+                     u => u.UserId,
+                     (d, u) => new PendingTaskModel
+                     {
+                         ModuleId = d.ModuleId,
+                         TaskType = (int)TaskType.CONFIRM,
+                         DeadLine = d.FinishedOnDate,
+                         Title = d.Name,
+                         CreatedByUser = u.UserName,
+                         RelatedId = d.ConfirmId
+                     }).ToList());
+                    //
+                    results.AddRange(unitOfWork.GetRepository<DocumentPerform>().GetMany(d => d.FinishedOnDate >= DateTime.Today && d.IsFinished == 0)
+                     .Join(unitOfWork.GetRepository<User>().GetAll(),
+                     d => d.CreatedByUserId,
+                     u => u.UserId,
+                     (d, u) => new PendingTaskModel
+                     {
+                         ModuleId = d.ModuleId,
+                         TaskType = (int)TaskType.PERFORM,
+                         DeadLine = d.FinishedOnDate,
+                         Title = d.Name,
+                         CreatedByUser = u.UserName,
+                         RelatedId = d.PerformId
+                     }).ToList());
                     return new Response<List<PendingTaskModel>>(1, "", results);
+                }
+            }
+            catch (Exception ex)
+            {
+                return new Response<List<PendingTaskModel>>(-1, ex.ToString(), null);
+            }
+        }
+        private Response<List<PendingTaskModel>> GetPendingTasksByDepartment(int DepartmentId)
+        {
+            try
+            {
+                
+                using (var unitOfWork = new UnitOfWork())
+                {
+                    List<PendingTaskModel> results = new List<PendingTaskModel>();
+                    results.AddRange(unitOfWork.GetRepository<DocumentUnify>().GetMany(d => d.FinishedOnDate > DateTime.Today && d.IsFinished == 0)
+                        .Join(unitOfWork.GetRepository<User>().GetMany(u => u.DepartmentId == DepartmentId),
+                        d => d.CreatedByUserId,
+                        u => u.UserId,
+                        (d, u) => new PendingTaskModel
+                        {
+                            ModuleId = d.ModuleId,
+                            TaskType = (int)TaskType.UNIFY,
+                            DeadLine = d.FinishedOnDate,
+                            Title = d.Name,
+                            CreatedByUser = u.UserName,
+                            RelatedId = d.UnifyId,
+                        }).ToList());
+                    //
+                    results.AddRange(unitOfWork.GetRepository<DocumentConfirm>().GetMany(d => d.FinishedOnDate > DateTime.Today && d.IsFinished == 0)
+                     .Join(unitOfWork.GetRepository<User>().GetMany(u => u.DepartmentId == DepartmentId),
+                     d => d.CreatedByUserId,
+                     u => u.UserId,
+                     (d, u) => new PendingTaskModel
+                     {
+                         ModuleId = d.ModuleId,
+                         TaskType = (int)TaskType.CONFIRM,
+                         DeadLine = d.FinishedOnDate,
+                         Title = d.Name,
+                         CreatedByUser = u.UserName,
+                         RelatedId = d.ConfirmId
+                     }).ToList());
+                    //
+                    results.AddRange(unitOfWork.GetRepository<DocumentPerform>().GetMany(d => d.FinishedOnDate > DateTime.Today && d.IsFinished == 0)
+                     .Join(unitOfWork.GetRepository<User>().GetMany(u => u.DepartmentId == DepartmentId),
+                     d => d.CreatedByUserId,
+                     u => u.UserId,
+                     (d, u) => new PendingTaskModel
+                     {
+                         ModuleId = d.ModuleId,
+                         TaskType = (int)TaskType.PERFORM,
+                         DeadLine = d.FinishedOnDate,
+                         Title = d.Name,
+                         CreatedByUser = u.UserName,
+                         RelatedId = d.PerformId
+                     }).ToList());
+                    return new Response<List<PendingTaskModel>>(1, "", results);
+
                 }
             }
             catch (Exception ex)
@@ -304,6 +457,7 @@ namespace ECMDemo.Business.Handler
                                    DeadLine = d.FinishedOnDate,
                                    Title = d.Name,
                                    CreatedByUser = u.UserName
+                                   
                                }).ToList());
                                 break;
                             }
