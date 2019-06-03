@@ -26,7 +26,6 @@ namespace ECMDemo.Business.Handler
                     var last = unitOfWork.GetRepository<DocumentUnify>().GetAll().OrderByDescending(u => u.UnifyId).FirstOrDefault();
                     if (last != null) entity.UnifyId = last.UnifyId + 1;
                     else entity.UnifyId = 1;
-                    entity.RelatedDocumentId = entity.UnifyId;
                     unitOfWork.GetRepository<DocumentUnify>().Add(entity);
                     foreach (var item in createModel.UserList.Split(','))
                     {

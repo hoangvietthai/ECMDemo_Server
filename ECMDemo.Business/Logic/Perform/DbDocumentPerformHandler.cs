@@ -26,7 +26,6 @@ namespace ECMDemo.Business.Handler
                     var last = unitOfWork.GetRepository<DocumentPerform>().GetAll().OrderByDescending(u => u.PerformId).FirstOrDefault();
                     if (last != null) entity.PerformId = last.PerformId + 1;
                     else entity.PerformId = 1;
-                    entity.RelatedDocumentId = entity.PerformId;
                     unitOfWork.GetRepository<DocumentPerform>().Add(entity);
                     foreach (var item in createModel.UserList.Split(','))
                     {
@@ -279,7 +278,7 @@ namespace ECMDemo.Business.Handler
                             CreatedByUserId = entity.CreatedByUserId,
                             Deadline = entity.FinishedOnDate,
                             TaskType = (int)TaskType.PERFORM,
-                            Title = "Thống nhất lại: " + entity.Name,
+                            Title = "Thực hiện lại: " + entity.Name,
                             UserId = user_id,
                             CreatedOnDate = DateTime.Now,
                             RelatedId = entity.PerformId,

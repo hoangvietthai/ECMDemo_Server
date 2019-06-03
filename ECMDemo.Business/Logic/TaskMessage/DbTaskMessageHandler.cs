@@ -1,10 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using ECMDemo.Business.Common;
+﻿using ECMDemo.Business.Common;
 using ECMDemo.Business.Model;
 using ECMDemo.Data;
+using System;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace ECMDemo.Business.Handler
 {
@@ -223,7 +222,7 @@ namespace ECMDemo.Business.Handler
                             DeadLine = d.FinishedOnDate,
                             Title = d.Name,
                             CreatedByUser = u.UserName,
-                            RelatedDocumentId=d.RelatedDocumentId
+                            RelatedDocumentId=d.UnifyId
                         }).ToList());
                     //
                     results.AddRange(unitOfWork.GetRepository<DocumentConfirm>().GetMany(d => d.FinishedOnDate < DateTime.Today && d.IsFinished == 0)
@@ -237,7 +236,7 @@ namespace ECMDemo.Business.Handler
                          DeadLine = d.FinishedOnDate,
                          Title = d.Name,
                          CreatedByUser = u.UserName,
-                         RelatedDocumentId = d.RelatedDocumentId
+                         RelatedDocumentId = d.ConfirmId
                      }).ToList());
                     //
                     results.AddRange(unitOfWork.GetRepository<DocumentPerform>().GetMany(d => d.FinishedOnDate < DateTime.Today && d.IsFinished == 0)
@@ -251,7 +250,7 @@ namespace ECMDemo.Business.Handler
                          DeadLine = d.FinishedOnDate,
                          Title = d.Name,
                          CreatedByUser = u.UserName,
-                         RelatedDocumentId = d.RelatedDocumentId
+                         RelatedDocumentId = d.PerformId
                      }).ToList());
                     return new Response<List<ExpiredTaskModule>>(1, "", results);
 
@@ -280,7 +279,7 @@ namespace ECMDemo.Business.Handler
                             DeadLine = d.FinishedOnDate,
                             Title = d.Name,
                             CreatedByUser = u.UserName,
-                            RelatedDocumentId = d.RelatedDocumentId
+                            RelatedDocumentId = d.UnifyId
                         }).ToList());
                     //
                     results.AddRange(unitOfWork.GetRepository<DocumentConfirm>().GetMany(d => d.FinishedOnDate < DateTime.Today && d.IsFinished == 0)
@@ -294,7 +293,7 @@ namespace ECMDemo.Business.Handler
                          DeadLine = d.FinishedOnDate,
                          Title = d.Name,
                          CreatedByUser = u.UserName,
-                         RelatedDocumentId = d.RelatedDocumentId
+                         RelatedDocumentId = d.ConfirmId
                      }).ToList());
                     //
                     results.AddRange(unitOfWork.GetRepository<DocumentPerform>().GetMany(d => d.FinishedOnDate < DateTime.Today && d.IsFinished == 0)
@@ -308,7 +307,7 @@ namespace ECMDemo.Business.Handler
                          DeadLine = d.FinishedOnDate,
                          Title = d.Name,
                          CreatedByUser = u.UserName,
-                         RelatedDocumentId = d.RelatedDocumentId
+                         RelatedDocumentId = d.PerformId
                      }).ToList());
                     return new Response<List<ExpiredTaskModule>>(1, "", results);
 
@@ -340,7 +339,7 @@ namespace ECMDemo.Business.Handler
                             DeadLine = d.FinishedOnDate,
                             Title = d.Name,
                             CreatedByUser = u.UserName,
-                            RelatedId = d.RelatedDocumentId
+                            RelatedId = d.UnifyId
                         }).ToList());
                     //
                     results.AddRange(unitOfWork.GetRepository<DocumentConfirm>().GetMany(d => d.FinishedOnDate >= DateTime.Today && d.IsFinished == 0)
@@ -354,7 +353,7 @@ namespace ECMDemo.Business.Handler
                          DeadLine = d.FinishedOnDate,
                          Title = d.Name,
                          CreatedByUser = u.UserName,
-                         RelatedId = d.RelatedDocumentId
+                         RelatedId = d.ConfirmId
                      }).ToList());
                     //
                     results.AddRange(unitOfWork.GetRepository<DocumentPerform>().GetMany(d => d.FinishedOnDate >= DateTime.Today && d.IsFinished == 0)
@@ -368,7 +367,7 @@ namespace ECMDemo.Business.Handler
                          DeadLine = d.FinishedOnDate,
                          Title = d.Name,
                          CreatedByUser = u.UserName,
-                         RelatedId = d.RelatedDocumentId
+                         RelatedId = d.PerformId
                      }).ToList());
                     return new Response<List<PendingTaskModel>>(1, "", results);
                 }
@@ -382,6 +381,7 @@ namespace ECMDemo.Business.Handler
         {
             try
             {
+                
                 using (var unitOfWork = new UnitOfWork())
                 {
                     List<PendingTaskModel> results = new List<PendingTaskModel>();
@@ -396,7 +396,7 @@ namespace ECMDemo.Business.Handler
                             DeadLine = d.FinishedOnDate,
                             Title = d.Name,
                             CreatedByUser = u.UserName,
-                            RelatedId = d.RelatedDocumentId,
+                            RelatedId = d.UnifyId,
                         }).ToList());
                     //
                     results.AddRange(unitOfWork.GetRepository<DocumentConfirm>().GetMany(d => d.FinishedOnDate > DateTime.Today && d.IsFinished == 0)
@@ -410,7 +410,7 @@ namespace ECMDemo.Business.Handler
                          DeadLine = d.FinishedOnDate,
                          Title = d.Name,
                          CreatedByUser = u.UserName,
-                         RelatedId = d.RelatedDocumentId
+                         RelatedId = d.ConfirmId
                      }).ToList());
                     //
                     results.AddRange(unitOfWork.GetRepository<DocumentPerform>().GetMany(d => d.FinishedOnDate > DateTime.Today && d.IsFinished == 0)
@@ -424,7 +424,7 @@ namespace ECMDemo.Business.Handler
                          DeadLine = d.FinishedOnDate,
                          Title = d.Name,
                          CreatedByUser = u.UserName,
-                         RelatedId = d.RelatedDocumentId
+                         RelatedId = d.PerformId
                      }).ToList());
                     return new Response<List<PendingTaskModel>>(1, "", results);
 
@@ -457,6 +457,7 @@ namespace ECMDemo.Business.Handler
                                    DeadLine = d.FinishedOnDate,
                                    Title = d.Name,
                                    CreatedByUser = u.UserName
+                                   
                                }).ToList());
                                 break;
                             }

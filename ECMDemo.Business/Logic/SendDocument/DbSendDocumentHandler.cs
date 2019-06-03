@@ -34,7 +34,7 @@ namespace ECMDemo.Business.Handler
                         Name = createModel.Name,
                         DocumentStatusId = createModel.DocumentStatusId,
                         CategoryId = createModel.CategoryId,
-                        CreatedByUserId = createModel.CreatedByUserId,
+                        CreatedByUserId = createModel.WrittenByUserId,
                         CreatedOnDate = DateTime.Now,
                         DeliveryMethodId = createModel.DeliveryMethodId,
                         LastModifiedOnDate = DateTime.Now,
@@ -97,9 +97,13 @@ namespace ECMDemo.Business.Handler
                     var user = unitOfWork.GetRepository<User>().GetById(UserId);
                     if (user == null) return new Response<List<SendDocumentDisplayModel>>(0, "", null);
                     var _list = unitOfWork.GetRepository<SendDocument>().GetMany(d => d.IsDelete == false);
-                    if (user.UserRoleId > 1)
+                    if (user.UserRoleId ==2)
                     {
                         _list=_list.Where(d => d.DepartmentId == user.DepartmentId);
+                    }
+                    if (user.UserRoleId ==3)
+                    {
+                        _list = _list.Where(d => d.DepartmentId == user.DepartmentId && d.CreatedByUserId == UserId);
                     }
                     
                     var list = _list
