@@ -11,11 +11,13 @@ namespace ECMDemo.Business.Model
         public string Name { get; set; }
         public string FileUrl { get; set; }
         public string FileCates { get; set; }
+        public string Description { get; set; }
         public string CreatedByUserName { get; set; }
         public int CreatedByUserId { get; set; }
         public System.DateTime CreatedOnDate { get; set; }
         public int LastModifiedByUserId { get; set; }
         public System.DateTime LastModifiedOnDate { get; set; }
+        public bool DocumentType { get; set; }
     }
     public class DocumentModel
     {

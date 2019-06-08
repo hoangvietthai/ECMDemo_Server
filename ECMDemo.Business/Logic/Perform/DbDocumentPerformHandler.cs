@@ -106,16 +106,28 @@ namespace ECMDemo.Business.Handler
                     unitOfWork.GetRepository<QH_DocumentPerform_User>().Add(entity);
                     //update status
                     //turn off notif
-                    var notif = unitOfWork.GetRepository<TaskMessage>().Get(c => c.UserId == createModel.UserId && c.RelatedId == createModel.DocumentPerformId);
-                    if (notif != null)
+                    var perform = unitOfWork.GetRepository<DocumentPerform>().GetById(createModel.DocumentPerformId);
+                    if (perform != null)
                     {
-                        notif.Status = 1;
-                        unitOfWork.GetRepository<TaskMessage>().Update(notif);
-                    }
-
-                    if (unitOfWork.Save() >= 1)
-                    {
-                        return GetResponse(createModel.UserId, createModel.DocumentPerformId);
+                        TaskMessage taskMessage = new TaskMessage
+                        {
+                            Deadline = DateTime.Now.AddDays(3),
+                            CreatedOnDate = DateTime.Now,
+                            CreatedByUserId = createModel.UserId,
+                            UserId = perform.CreatedByUserId,
+                            IsMyTask = true,
+                            ModuleId = perform.ModuleId,
+                            RelatedId = perform.PerformId,
+                            Status = 0,
+                            TaskType = (int)TaskType.PERFORM,
+                            Title = "Tham khảo thực hiện " + perform.Name
+                        };
+                        unitOfWork.GetRepository<TaskMessage>().Add(taskMessage);
+                        if (unitOfWork.Save() >= 1)
+                        {
+                            return new Response<DocumentPerformResponseModel>(1, "", Ultis.ConvertSameData<DocumentPerformResponseModel>(entity));
+                        }
+                        return new Response<DocumentPerformResponseModel>(0, "", null);
                     }
                     return new Response<DocumentPerformResponseModel>(0, "", null);
                 }

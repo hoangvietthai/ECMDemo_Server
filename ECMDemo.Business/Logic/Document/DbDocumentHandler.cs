@@ -92,9 +92,11 @@ namespace ECMDemo.Business.Handler
                         {
                             CreatedByUserId = d.CreatedByUserId,
                             CreatedOnDate = d.CreatedOnDate,
+                            Description = d.Description,
                             DocumentId = d.DocumentId,
                             FileCates = d.FileCates,
                             FileUrl = d.FileUrl,
+                            DocumentType = d.DocumentType,
                             LastModifiedByUserId = d.LastModifiedByUserId,
                             LastModifiedOnDate = d.LastModifiedOnDate,
                             Name = d.Name,
@@ -134,8 +136,10 @@ namespace ECMDemo.Business.Handler
                             CreatedByUserId = d.CreatedByUserId,
                             CreatedOnDate = d.CreatedOnDate,
                             DocumentId = d.DocumentId,
+                            Description = d.Description,
                             FileCates = d.FileCates,
                             FileUrl = d.FileUrl,
+                            DocumentType = d.DocumentType,
                             LastModifiedByUserId = d.LastModifiedByUserId,
                             LastModifiedOnDate = d.LastModifiedOnDate,
                             Name = d.Name,
@@ -342,6 +346,7 @@ namespace ECMDemo.Business.Handler
                         (d, u) => new DocumentDisplayModel
                         {
                             CreatedByUserId = d.CreatedByUserId,
+                            Description = d.Description,
                             CreatedOnDate = d.CreatedOnDate,
                             DocumentId = d.DocumentId,
                             FileCates = d.FileCates,

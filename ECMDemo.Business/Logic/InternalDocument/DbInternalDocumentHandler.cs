@@ -134,10 +134,14 @@ namespace ECMDemo.Business.Handler
                 {
                     var user = unitOfWork.GetRepository<User>().GetById(UserId);
                     if (user == null) return new Response<List<InternalDocumentDisplayModel>>(0, "", null);
-                    var _list = unitOfWork.GetRepository<InternalDocument>().GetMany(d => d.IsDelete == false && d.DepartmentId == DirectoryId);
-                    if (user.UserRoleId > 1)
+                    var _list = unitOfWork.GetRepository<InternalDocument>().GetMany(d => d.IsDelete == false && d.DirectoryId == DirectoryId);
+                    if (user.UserRoleId == 2)
                     {
-                        _list = _list.Where(d => d.DepartmentId == user.DepartmentId && (d.CreatedByUserId == UserId || d.ResignedNumber != null));
+                        _list = _list.Where(d => d.DepartmentId == user.DepartmentId);
+                    }
+                    if (user.UserRoleId == 3)
+                    {
+                        _list = _list.Where(d => d.DepartmentId == user.DepartmentId && d.CreatedByUserId == UserId);
                     }
 
                     var list = _list

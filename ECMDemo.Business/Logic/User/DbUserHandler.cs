@@ -20,6 +20,7 @@ namespace ECMDemo.Business.Handler
                         return new Response<UserModel>(0, "Mật khẩu phải có từ 6-18 ký tự",null);
                     if ((createModel.UserName.Length < 6) || (createModel.UserName.Length > 18))
                         return new Response<UserModel>(0, "Tên tài khoản phải có từ 6-18 ký tự", null);
+                    var check_leader = unitOfWork.GetRepository<Department>().GetById(createModel.DepartmentId);
                     User user = new User
                     {
                         DepartmentId = createModel.DepartmentId,
@@ -32,6 +33,7 @@ namespace ECMDemo.Business.Handler
                         UserRoleId=2
                     };
                     if (last != null) user.UserId = last.UserId + 1;
+                    if (check_leader.LeaderId != 0) user.UserRoleId = 3;
                     unitOfWork.GetRepository<User>().Add(user);
                     if (unitOfWork.Save() >= 1)
                     {
