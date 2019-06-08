@@ -17,8 +17,8 @@ namespace ECMDemo.Business.Handler
         Response<List<TaskMessageModel>> SendToListUser(string list, TaskMessageCreateModel createModel);
         void CheckMyTasks(int UserId);
         //
-        Response<List<ExpiredTaskModule>> GetExpiredTasks();
-        Response<List<PendingTaskModel>> GetPendingTasks();
+        Response<List<ExpiredTaskModule>> GetExpiredTasks(int UserId);
+        Response<List<PendingTaskModel>> GetPendingTasks(int UserId);
         Response<List<PendingTaskDetailModel>> GetDetailPendingTask(int type);
 
     }

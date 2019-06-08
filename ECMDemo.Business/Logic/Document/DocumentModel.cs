@@ -11,11 +11,13 @@ namespace ECMDemo.Business.Model
         public string Name { get; set; }
         public string FileUrl { get; set; }
         public string FileCates { get; set; }
+        public string Description { get; set; }
         public string CreatedByUserName { get; set; }
         public int CreatedByUserId { get; set; }
         public System.DateTime CreatedOnDate { get; set; }
         public int LastModifiedByUserId { get; set; }
         public System.DateTime LastModifiedOnDate { get; set; }
+        public bool DocumentType { get; set; }
     }
     public class DocumentModel
     {
@@ -62,5 +64,11 @@ namespace ECMDemo.Business.Model
         public int? CategoryId { get; set; }
         public DateTime? StartDate { get; set; }
         public DateTime? EndDate { get; set; }
+    }
+    public class ShareDocumentModel
+    {
+        public int DocumentId { get; set; }
+        public int DepartmentId { get; set; }
+        public string Message { get; set; }
     }
 }

@@ -76,7 +76,8 @@ namespace ECMDemo.API.Controllers
         [EnableCors(origins: "*", headers: "*", methods: "*")]
         public IHttpActionResult PendingTask()
         {
-            var result = handler.GetPendingTasks();
+            string UserId = Request.Headers.GetValues("UserId").FirstOrDefault();
+            var result = handler.GetPendingTasks(Convert.ToInt32(UserId));
             return Ok(result);
         }
         [HttpGet]
@@ -92,7 +93,8 @@ namespace ECMDemo.API.Controllers
         [EnableCors(origins: "*", headers: "*", methods: "*")]
         public IHttpActionResult GetById()
         {
-            var result = handler.GetExpiredTasks();
+            string UserId = Request.Headers.GetValues("UserId").FirstOrDefault();
+            var result = handler.GetExpiredTasks(Convert.ToInt32(UserId));
             return Ok(result);
         }
     }

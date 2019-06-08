@@ -106,16 +106,39 @@ namespace ECMDemo.Business.Handler
                     unitOfWork.GetRepository<QH_DocumentUnify_User>().Add(entity);
                     //update status
                     //turn off notif
-                    var notif = unitOfWork.GetRepository<TaskMessage>().Get(c => c.UserId == createModel.UserId && c.RelatedId == createModel.DocumentUnifyId);
-                    if (notif != null)
-                    {
-                        notif.Status = 1;
-                        unitOfWork.GetRepository<TaskMessage>().Update(notif);
-                    }
+                    //var notif = unitOfWork.GetRepository<TaskMessage>().Get(c => c.UserId == createModel.UserId && c.RelatedId == createModel.DocumentUnifyId);
+                    //if (notif != null)
+                    //{
+                    //  notif.Status = 1;
+                    //unitOfWork.GetRepository<TaskMessage>().Update(notif);
+                    // }
 
-                    if (unitOfWork.Save() >= 1)
+                    //if (unitOfWork.Save() >= 1)
+                    //{
+                    //  return GetResponse(createModel.UserId, createModel.DocumentUnifyId);
+                    //}
+                    var unify = unitOfWork.GetRepository<DocumentUnify>().GetById(createModel.DocumentUnifyId);
+                    if (unify != null)
                     {
-                        return GetResponse(createModel.UserId, createModel.DocumentUnifyId);
+                        TaskMessage taskMessage = new TaskMessage
+                        {
+                            Deadline = DateTime.Now.AddDays(3),
+                            CreatedOnDate = DateTime.Now,
+                            CreatedByUserId = createModel.UserId,
+                            UserId = unify.CreatedByUserId,
+                            IsMyTask = true,
+                            ModuleId = unify.ModuleId,
+                            RelatedId = unify.UnifyId,
+                            Status = 0,
+                            TaskType = (int)TaskType.UNIFY,
+                            Title = "Tham khảo thống nhất " + unify.Name
+                        };
+                        unitOfWork.GetRepository<TaskMessage>().Add(taskMessage);
+                        if (unitOfWork.Save() >= 1)
+                        {
+                            return new Response<DocumentUnifyResponseModel>(1, "", Ultis.ConvertSameData<DocumentUnifyResponseModel>(entity));
+                        }
+                        return new Response<DocumentUnifyResponseModel>(0, "", null);
                     }
                     return new Response<DocumentUnifyResponseModel>(0, "", null);
                 }

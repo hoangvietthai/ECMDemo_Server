@@ -13,6 +13,7 @@ namespace ECMDemo.Business.Model
         public Nullable<System.DateTime> ResignedOnDate { get; set; }
         //Người ký
         public string SignedByUserFullName { get; set; }
+        public string DepartmentName { get; set; }
         //Busines Partner
         public string Receiver { get; set; }
         public System.DateTime CreatedOnDate { get; set; }

@@ -12,6 +12,7 @@ namespace ECMDemo.Business.Model
         
         public string Sender { get; set; }
         public string ReceiverUserFullName { get; set; }
+        public string DepartmentName { get; set; }
    
         public Nullable<int> ResignedNumber { get; set; }
         public Nullable<System.DateTime> ResignedOnDate { get; set; }

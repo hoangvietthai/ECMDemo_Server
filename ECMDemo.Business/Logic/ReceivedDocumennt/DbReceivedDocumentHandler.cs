@@ -97,13 +97,35 @@ namespace ECMDemo.Business.Handler
                     var user = unitOfWork.GetRepository<User>().GetById(UserId);
                     if (user == null) return new Response<List<ReceivedDocumentDisplayModel>>(0, "", null);
                     var _list = unitOfWork.GetRepository<ReceivedDocument>().GetMany(d => d.IsDelete == false);
-                    if (user.UserRoleId > 1)
+                    if (user.UserRoleId ==2 )
                     {
-                        _list=_list.Where(d => d.DepartmentId == user.DepartmentId && (d.CreatedByUserId == UserId || d.ResignedNumber != null));
+                        _list=_list.Where(d => d.DepartmentId == user.DepartmentId);
+                    }
+                    if (user.UserRoleId == 3)
+                    {
+                        _list = _list.Where(d => d.DepartmentId == user.DepartmentId && d.CreatedByUserId == UserId);
                     }
 
-
                     var list = _list
+                          .Join(unitOfWork.GetRepository<Department>().GetAll(),
+                            d => d.DepartmentId,
+                            u => u.DepartmentId,
+                            (d, u) => new
+                            {
+                                ReceivedDocumentId = d.ReceivedDocumentId,
+                                ResignedNumber = d.ResignedNumber,
+                                DepartmentName = u.Name,
+                                ResignedOnDate = d.ResignedOnDate,
+                                SenderId = d.SenderId,
+                                DocumentDate = d.DocumentDate,
+                                DocumentIndex = d.DocumentIndex,
+                                CreatedOnDate = d.CreatedOnDate,
+                                SignedByUserId = d.SignedByUserId,
+                                Name = d.Name,
+                                DocumentProcessId = d.DocumentProcessId,
+                                DocumentStatusId = d.DocumentStatusId
+                            }
+                        )
                         .Join(unitOfWork.GetRepository<User>().GetAll(),
                         d => d.SignedByUserId,
                         u => u.UserId,
@@ -111,6 +133,7 @@ namespace ECMDemo.Business.Handler
                         {
                             ReceivedDocumentId = d.ReceivedDocumentId,
                             ReceiverUserFullName = u.FullName,
+                            DepartmentName = d.DepartmentName,
                             ResignedNumber = d.ResignedNumber,
                             ResignedOnDate = d.ResignedOnDate,
                             SenderId = d.SenderId,
@@ -128,6 +151,7 @@ namespace ECMDemo.Business.Handler
                             (d, b) => new ReceivedDocumentDisplayModel
                             {
                                 ReceivedDocumentId = d.ReceivedDocumentId,
+                                DepartmentName = d.DepartmentName,
                                 ReceiverUserFullName = d.ReceiverUserFullName,
                                 ResignedNumber = d.ResignedNumber,
                                 ResignedOnDate = d.ResignedOnDate,

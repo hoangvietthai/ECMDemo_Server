@@ -10,12 +10,14 @@ namespace ECMDemo.Business.Handler
 {
     public class DbDocumentHandler : IDbDocumentHandler
     {
-        public Response<DocumentModel> Create(DocumentCreateModel createModel)
+        public Response<DocumentModel> Create(int UserId,DocumentCreateModel createModel)
         {
             try
             {
                 using (var unitOfWork = new UnitOfWork())
                 {
+                    var user = unitOfWork.GetRepository<User>().GetById(UserId);
+                    if (user==null) return new Response<DocumentModel>(0, "", null);
                     var last = unitOfWork.GetRepository<Document>().GetAll().OrderByDescending(c => c.DocumentId).FirstOrDefault();
 
                     Document doc = new Document
@@ -30,8 +32,9 @@ namespace ECMDemo.Business.Handler
                         Name = createModel.Name,
                         Description = createModel.Description,
                         DirectoryId = createModel.DirectoryId,
-                        DocumentType=createModel.DocumentType,
-                        IsDelete=false
+                        DocumentType = createModel.DocumentType,
+                        IsDelete = false,
+                        DepartmentId= user.DepartmentId
                     };
 
 
@@ -89,9 +92,11 @@ namespace ECMDemo.Business.Handler
                         {
                             CreatedByUserId = d.CreatedByUserId,
                             CreatedOnDate = d.CreatedOnDate,
+                            Description = d.Description,
                             DocumentId = d.DocumentId,
                             FileCates = d.FileCates,
                             FileUrl = d.FileUrl,
+                            DocumentType = d.DocumentType,
                             LastModifiedByUserId = d.LastModifiedByUserId,
                             LastModifiedOnDate = d.LastModifiedOnDate,
                             Name = d.Name,
@@ -119,8 +124,9 @@ namespace ECMDemo.Business.Handler
                     var list = unitOfWork.GetRepository<Document>().GetMany(u => u.IsDelete == false);
                     if (user.UserRoleId > 1)
                     {
-                        var listDir = unitOfWork.GetRepository<Directory>().GetMany(d => d.DepartmentId == user.DepartmentId).Select(d => d.DirectoryId).ToList();
-                        list=list.Where(u => listDir.Contains(u.DirectoryId));
+                       // var listDir = unitOfWork.GetRepository<Directory>().GetMany(d => d.DepartmentId == user.DepartmentId).Select(d => d.DirectoryId).ToList();
+
+                        list = list.Where(u => u.DepartmentId == user.DepartmentId);
                     }
                     var result = list.Join(unitOfWork.GetRepository<User>().GetAll(),
                         d => d.CreatedByUserId,
@@ -130,8 +136,10 @@ namespace ECMDemo.Business.Handler
                             CreatedByUserId = d.CreatedByUserId,
                             CreatedOnDate = d.CreatedOnDate,
                             DocumentId = d.DocumentId,
+                            Description = d.Description,
                             FileCates = d.FileCates,
                             FileUrl = d.FileUrl,
+                            DocumentType = d.DocumentType,
                             LastModifiedByUserId = d.LastModifiedByUserId,
                             LastModifiedOnDate = d.LastModifiedOnDate,
                             Name = d.Name,
@@ -300,7 +308,7 @@ namespace ECMDemo.Business.Handler
                     var list = unitOfWork.GetRepository<Document>().GetMany(u => u.IsDelete == false && !u.DocumentType);
                     if (filter.DepartmentId != null)
                     {
-                        var _listDirs=unitOfWork.GetRepository<Directory>().GetMany(d => d.DepartmentId == filter.DepartmentId).Select(d => d.DirectoryId).ToList();
+                        var _listDirs = unitOfWork.GetRepository<Directory>().GetMany(d => d.DepartmentId == filter.DepartmentId).Select(d => d.DirectoryId).ToList();
                         if (filter.DirectoryId != null)
                         {
                             list = list.Where(d => d.DirectoryId == filter.DirectoryId);
@@ -314,7 +322,7 @@ namespace ECMDemo.Business.Handler
                     {
                         list = list.Where(d => IsInCate(Convert.ToInt32(filter.CategoryId), d.FileCates));
                     }
-                    
+
                     if (filter.StartDate != null)
                     {
                         list = list.Where(d => d.CreatedOnDate >= filter.StartDate.Value);
@@ -323,7 +331,7 @@ namespace ECMDemo.Business.Handler
                     {
                         list = list.Where(d => d.CreatedOnDate <= filter.EndDate.Value);
                     }
-                    if(filter.UserId!=null)
+                    if (filter.UserId != null)
                     {
                         list = list.Where(d => d.CreatedByUserId == filter.UserId);
                     }
@@ -332,7 +340,94 @@ namespace ECMDemo.Business.Handler
                     {
                         list = list.Where(d => d.Name.Trim().ToLower().Contains(filter.Name.Trim().ToLower()));
                     }
-                    var result=list.Join(unitOfWork.GetRepository<User>().GetAll(),
+                    var result = list.Join(unitOfWork.GetRepository<User>().GetAll(),
+                        d => d.CreatedByUserId,
+                        u => u.UserId,
+                        (d, u) => new DocumentDisplayModel
+                        {
+                            CreatedByUserId = d.CreatedByUserId,
+                            Description = d.Description,
+                            CreatedOnDate = d.CreatedOnDate,
+                            DocumentId = d.DocumentId,
+                            FileCates = d.FileCates,
+                            FileUrl = d.FileUrl,
+                            LastModifiedByUserId = d.LastModifiedByUserId,
+                            LastModifiedOnDate = d.LastModifiedOnDate,
+                            Name = d.Name,
+                            CreatedByUserName = u.UserName
+                        })
+                        .OrderByDescending(u => u.DocumentId)
+                        .ToList();
+                    return new Response<List<DocumentDisplayModel>>(1, "", result);
+                }
+            }
+            catch (Exception ex)
+            {
+                return new Response<List<DocumentDisplayModel>>(-1, ex.ToString(), null);
+            }
+        }
+
+        public Response<DocumentModel> ShareToDepartment(int UserId, ShareDocumentModel model)
+        {
+            try
+            {
+                using (var unitOfWork = new UnitOfWork())
+                {
+                    if (model.DepartmentId == 0) return new Response<DocumentModel>(0, "Bạn không thể gửi cho phòng văn thư", null);
+                    var user = unitOfWork.GetRepository<User>().GetById(UserId);
+                    if (user == null) return new Response<DocumentModel>(0, "User doesn't exist!", null);
+                    if (user.DepartmentId != 0) return new Response<DocumentModel>(0, "Chỉ phòng văn thư mới gửi được", null);
+                    var exist = unitOfWork.GetRepository<QH_ShareDocument_Department>().Get(d => d.DepartmentId == model.DepartmentId && d.DocumentId == model.DocumentId);
+                    if (exist != null) return new Response<DocumentModel>(0, "Tài liệu đã được gửi cho phòng ban này", null);
+                    QH_ShareDocument_Department qh = new QH_ShareDocument_Department
+                    {
+                        CreatedByUserId = UserId,
+                        CreatedOnDate = DateTime.Now,
+                        DepartmentId = model.DepartmentId,
+                        DocumentId = model.DocumentId,
+                        Message = model.Message
+                    };
+                    unitOfWork.GetRepository<QH_ShareDocument_Department>().Add(qh);
+                    if (unitOfWork.Save() >= 1)
+                    {
+                        return new Response<DocumentModel>(1, "", null);
+                    }
+                    return new Response<DocumentModel>(0, "", null);
+                }
+            }
+            catch (Exception ex)
+            {
+                return new Response<DocumentModel>(-1, ex.ToString(), null);
+            }
+        }
+        public Response<List<DocumentDisplayModel>> GetShareDocuments(int UserId)
+        {
+            try
+            {
+                using (var unitOfWork = new UnitOfWork())
+                {
+                    var user = unitOfWork.GetRepository<User>().GetById(UserId);
+                    if (user == null) return new Response<List<DocumentDisplayModel>>(0, "", null);
+
+                    var list = unitOfWork.GetRepository<Document>().GetMany(u => u.IsDelete == false)
+                        .Join(unitOfWork.GetRepository<QH_ShareDocument_Department>().GetMany(d => d.DepartmentId == user.DepartmentId),
+                        d => d.DocumentId,
+                        qh => qh.DocumentId,
+                        (d, qh) => new
+                        {
+                            CreatedByUserId = d.CreatedByUserId,
+                            CreatedOnDate = d.CreatedOnDate,
+                            DocumentId = d.DocumentId,
+                            FileCates = d.FileCates,
+                            FileUrl = d.FileUrl,
+                            LastModifiedByUserId = d.LastModifiedByUserId,
+                            LastModifiedOnDate = d.LastModifiedOnDate,
+                            Name = d.Name,
+                            DirectoryId = d.DirectoryId
+                        }
+                        );
+
+                    var result = list.Join(unitOfWork.GetRepository<User>().GetAll(),
                         d => d.CreatedByUserId,
                         u => u.UserId,
                         (d, u) => new DocumentDisplayModel
@@ -350,6 +445,40 @@ namespace ECMDemo.Business.Handler
                         .OrderByDescending(u => u.DocumentId)
                         .ToList();
                     return new Response<List<DocumentDisplayModel>>(1, "", result);
+                }
+            }
+            catch (Exception ex)
+            {
+                return new Response<List<DocumentDisplayModel>>(-1, ex.ToString(), null);
+            }
+        }
+
+        public Response<List<DocumentDisplayModel>> GetAllInDepartment(int DepartmentId)
+        {
+            try
+            {
+                using (var unitOfWork = new UnitOfWork())
+                {
+                    var list = unitOfWork.GetRepository<Document>().GetMany(u => u.IsDelete == false && u.DepartmentId == DepartmentId)
+                          .Join(unitOfWork.GetRepository<User>().GetAll(),
+                        d => d.CreatedByUserId,
+                        u => u.UserId,
+                        (d, u) => new DocumentDisplayModel
+                        {
+                            CreatedByUserId = d.CreatedByUserId,
+                            CreatedOnDate = d.CreatedOnDate,
+                            DocumentId = d.DocumentId,
+                            FileCates = d.FileCates,
+                            FileUrl = d.FileUrl,
+                            LastModifiedByUserId = d.LastModifiedByUserId,
+                            LastModifiedOnDate = d.LastModifiedOnDate,
+                            Name = d.Name,
+                            CreatedByUserName = u.UserName,
+
+                        })
+                        .OrderByDescending(u => u.DocumentId)
+                        .ToList();
+                    return new Response<List<DocumentDisplayModel>>(1, "", list);
                 }
             }
             catch (Exception ex)

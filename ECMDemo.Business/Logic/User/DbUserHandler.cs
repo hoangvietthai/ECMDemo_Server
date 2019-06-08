@@ -20,6 +20,7 @@ namespace ECMDemo.Business.Handler
                         return new Response<UserModel>(0, "Mật khẩu phải có từ 6-18 ký tự",null);
                     if ((createModel.UserName.Length < 6) || (createModel.UserName.Length > 18))
                         return new Response<UserModel>(0, "Tên tài khoản phải có từ 6-18 ký tự", null);
+                    var check_leader = unitOfWork.GetRepository<Department>().GetById(createModel.DepartmentId);
                     User user = new User
                     {
                         DepartmentId = createModel.DepartmentId,
@@ -32,6 +33,7 @@ namespace ECMDemo.Business.Handler
                         UserRoleId=2
                     };
                     if (last != null) user.UserId = last.UserId + 1;
+                    if (check_leader.LeaderId != 0) user.UserRoleId = 3;
                     unitOfWork.GetRepository<User>().Add(user);
                     if (unitOfWork.Save() >= 1)
                     {
@@ -241,7 +243,7 @@ namespace ECMDemo.Business.Handler
                     var user = unitOfWork.GetRepository<User>().GetById(Id);
                     if (user != null)
                     {
-                        
+                        user.UserName = userUpdateModel.UserName;
                         user.FullName = userUpdateModel.FullName;
                         user.DepartmentId = userUpdateModel.DepartmentId;
                         user.Password = EncryptionLib.EncryptText(userUpdateModel.Password);
@@ -271,7 +273,7 @@ namespace ECMDemo.Business.Handler
                 {
                     var user = unitOfWork.GetRepository<User>().GetById(userId);
                     if (user == null) return new Response<List<BaseUserModel>>(0, "User doesn't exsist", null);
-                    var list = unitOfWork.GetRepository<User>().GetMany(u => u.IsDelete == false && u.UserRoleId<=user.UserRoleId &&u.UserId!=user.UserId &&user.UserRoleId>0);
+                    var list = unitOfWork.GetRepository<User>().GetMany(u => u.IsDelete == false && u.UserRoleId<user.UserRoleId && u.UserRoleId>0);
                     //if (user.UserRoleId > 0)
                     //{
                     //    list = list.Where(c => c.UserRoleId > 0);
